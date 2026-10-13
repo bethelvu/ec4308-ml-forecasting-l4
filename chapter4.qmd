@@ -74,7 +74,6 @@ $$\min_{\beta_0, \beta} \left\{ \sum_{i=1}^n \left( y_i - \beta_0 - \sum_{j=1}^p
   $$\min_{\beta_0, \beta} \sum_{i=1}^n \left( y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij} \right)^2 \quad \text{subject to} \quad \sum_{j=1}^p |\beta_j| \le s$$
 - There is a 1-to-1 correspondence between $\lambda$ and budget $s$.
 
-![](media/image2.png){fig-align="center" width="80%"}
 
 # Some details
 
@@ -89,7 +88,6 @@ $$\min_{\beta_0, \beta} \left\{ \sum_{i=1}^n \left( y_i - \beta_0 - \sum_{j=1}^p
   - Unlike Ridge, the LASSO estimator has no closed-form matrix formula because the absolute value function is non-differentiable at zero.
   - However, the problem is **convex**, and fast algorithms (coordinate descent, LARS) make computational cost comparable to Ridge.
 
-![](media/image3.png){fig-align="center" width="75%"}
 
 # OLS on a "budget":
 
@@ -102,7 +100,6 @@ Comparing the constrained formulations reveals the geometry of each penalty:
 - **The Best Subset selection problem**:
   $$\min_{\beta} \text{RSS} \quad \text{subject to} \quad \sum_{j=1}^p I(\beta_j \ne 0) \le s \quad (\ell_0 \text{ pseudo-norm})$$
 
-![](media/image4.png){fig-align="center" width="85%"}
 
 # Shrinkage interpretation (under special case)
 
@@ -115,7 +112,6 @@ $$X^T X = I_p \quad \text{and} \quad \sum_{i=1}^n y_i = 0$$
 - Element-wise for each predictor $j = 1, \dots, p$:
   $$\hat{\beta}_j^{OLS} = X_j^T Y$$
 
-![](media/image5.png){fig-align="center" width="70%"}
 
 # Shrinkage interpretation (under special case)
 
@@ -129,7 +125,6 @@ $$\sum_{i=1}^n \left( y_i - \sum_{j=1}^p \beta_j x_{ij} \right)^2 + \lambda \sum
   $$\hat{\beta}_j^R = \frac{\hat{\beta}_j^{OLS}}{1 + \lambda}$$
 - Ridge applies **proportional shrinkage**: every coefficient is scaled down by the factor $\frac{1}{1+\lambda}$, regardless of its magnitude.
 
-![](media/image6.png){fig-align="center" width="75%"}
 
 # Shrinkage interpretation (under special case)
 
@@ -140,7 +135,6 @@ $$\sum_{i=1}^n \left( y_i - \sum_{j=1}^p \beta_j x_{ij} \right)^2 + \lambda \sum
 - The element-wise solution is given by the **soft-thresholding operator**:
   $$\hat{\beta}_j^L = \begin{cases} \hat{\beta}_j^{OLS} - \frac{\lambda}{2} & \text{if } \hat{\beta}_j^{OLS} > \frac{\lambda}{2} \\ \hat{\beta}_j^{OLS} + \frac{\lambda}{2} & \text{if } \hat{\beta}_j^{OLS} < -\frac{\lambda}{2} \\ 0 & \text{if } |\hat{\beta}_j^{OLS}| \le \frac{\lambda}{2} \end{cases} = \text{sign}\left(\hat{\beta}_j^{OLS}\right) \left( |\hat{\beta}_j^{OLS}| - \frac{\lambda}{2} \right)_+$$
 
-![](media/image7.png){fig-align="center" width="80%"}
 
 # Shrinkage interpretation (under special case)
 
@@ -168,11 +162,7 @@ Comparing the thresholding functions for the orthogonal case:
 
 $$\hat{\beta} \text{ as a function of } \hat{\beta}^{OLS}$$
 
-::: {layout-ncol=2}
-![](media/image9.png){width="90%"}
-
-![](media/image10.png){width="90%"}
-:::
+![](media/image10.png){fig-align="center" width="85%"}
 
 ::: {.footer-note}
 Source: Figure 3.11 in Elements of Statistical Learning (Hastie et al., 2009)
@@ -212,7 +202,6 @@ Though often effective in practice, LASSO has some notable shortcomings:
 
 > **Key question**: Can we find a compromise between Ridge and LASSO that yields both grouping and sparsity?
 
-![](media/image13.png){fig-align="center" width="70%"}
 
 # LASSO – Ridge compromise ?
 
@@ -220,11 +209,7 @@ One theoretical way to achieve such a compromise is to consider the **$L_q$ nest
 
 $$\min_{\beta} \sum_{i=1}^n \left( y_i - \sum_{j=1}^p \beta_j x_{ij} \right)^2 \quad \text{subject to} \quad \sum_{j=1}^p |\beta_j|^q \le s$$
 
-::: {layout-ncol=2}
-![](media/image14.png){width="85%"}
-
-![](media/image15.png){width="85%"}
-:::
+![](media/image14.png){fig-align="center" width="85%"}
 
 ::: {.footer-note}
 Source: Hastie et al. (2009): Elements of Statistical Learning, Springer
@@ -241,7 +226,6 @@ $$\sum_{j=1}^p |\beta_j|^q \le s$$
 - For $q < 1$, the constraint region is non-convex, making global optimization computationally intractable.
 - In practice, this method does not work well. We need a better alternative.
 
-![](media/image16.png){fig-align="center" width="70%"}
 
 # The Elastic Net
 
@@ -257,12 +241,6 @@ $$\min_{\beta_0, \beta} \left\{ \text{RSS} + \lambda \sum_{j=1}^p \left( \alpha 
 - $\alpha = 0 \implies \text{Ridge}$
 - $0 < \alpha < 1 \implies \text{Elastic Net}$
 
-::: {layout-ncol=2}
-![](media/image17.png){width="85%"}
-
-![](media/image18.png){width="85%"}
-:::
-
 # The Elastic Net
 
 - The Elastic Net **selects variables like LASSO** and **shrinks coefficients of correlated predictors together like Ridge** (**grouping effect**).
@@ -271,7 +249,6 @@ $$\min_{\beta_0, \beta} \left\{ \text{RSS} + \lambda \sum_{j=1}^p \left( \alpha 
 - Overcomes the $p > n$ limitation: can select more than $n$ variables.
 - Selection of tuning parameters $(\lambda, \alpha)$ can be done jointly by $K$-fold cross-validation.
 
-![](media/image19.png){fig-align="center" width="75%"}
 
 # The Elastic Net Illustration
 
@@ -293,12 +270,6 @@ Choosing $\lambda$ is the critical decision that determines model performance:
   - Prudent to use 10 folds, or repeat CV across multiple random seeds and take the median / modal $\lambda$.
 - **Theory**: Chernozhukov, Chetverikov, and Liao (2020) establish that CV estimation error converges to zero under regularity conditions in the Normal model.
 
-::: {layout-ncol=2}
-![](media/image21.png){width="85%"}
-
-![](media/image22.png){width="85%"}
-:::
-
 # Choice of $\lambda$: The “1 SE rule” for CV
 
 When performing CV in penalized regression, practitioners frequently use the **one standard error rule**:
@@ -313,7 +284,6 @@ When performing CV in penalized regression, practitioners frequently use the **o
 >
 > **Rationale**: Models within $1\text{SE}$ are essentially indistinguishable in predictive performance; parsimony dictates choosing the simpler, sparser model.
 
-![](media/image23.png){fig-align="center" width="70%"}
 
 # Choice of $\lambda$: plug-in rules
 
@@ -325,7 +295,6 @@ Under structural assumptions, theoretically optimal plug-in rules for $\lambda$ 
 - Extensions exist for correlated regressors and heteroskedastic / clustered errors.
 - Implemented in R package `hdm` via the function `rlasso()`.
 
-![](media/image24.png){fig-align="center" width="75%"}
 
 # Statistical properties
 
@@ -351,7 +320,6 @@ Asymptotic properties are derived allowing for high dimensions ($p \gg n$):
 - Post-LASSO removes attenuation bias on selected variables while preserving sparsity.
 - Theoretical convergence rates are established when combined with plug-in penalties (`rlasso(..., post = TRUE)`).
 
-![](media/image25.png){fig-align="center" width="70%"}
 
 # Note on Sparsity
 
@@ -374,7 +342,6 @@ When $p$ is extremely large, pre-screening before LASSO helps computational trac
     $$d = \left\lfloor \frac{n}{\log n} \right\rfloor \quad \text{or} \quad d = n - 1$$
 - Under regularity conditions, SIS enjoys the **sure screening property**: with probability approaching 1, the retained subset contains the true active variables.
 
-![](media/image26.png){fig-align="center" width="70%"}
 
 # Note on regressor transformation
 
@@ -401,12 +368,6 @@ Data from ISLR package on credit card balances ($n=400$ observations, 10 predict
 | **Married** | Factor: No / Yes |
 | **Ethnicity** | Factor: African American, Asian, Caucasian |
 | **Balance** | Response: Average credit card balance ($\$$) |
-
-::: {layout-ncol=2}
-![](media/image27.png){width="85%"}
-
-![](media/image28.png){width="85%"}
-:::
 
 # Application: R package `glmnet()`
 
@@ -442,7 +403,6 @@ fit = rlasso(Balance ~ ., data = Credit_train, post = TRUE)
 - `post = FALSE` delivers penalized plug-in estimates.
 - Default penalty adjusts for heteroskedasticity and non-Gaussian errors.
 
-![](media/image29.png){fig-align="center" width="75%"}
 
 # Application: effect of $\lambda$ on coefficients
 
@@ -528,5 +488,3 @@ Comparing final selected coefficients: $\lambda = 2.03$ vs. unpenalized OLS ($\l
 - **Post-LASSO estimation**: helps debias coefficients and mitigates attenuation bias.
 - **Elastic Net**: overcomes collinearity and grouping issues by combining $\ell_1$ and $\ell_2$ penalties.
 - **Tuning parameter choice**: critical in practice; use $K$-fold cross-validation (with 1SE rule) or theoretically justified plug-in rules (`rlasso`).
-
-![](media/image33.png){fig-align="center" width="75%"}

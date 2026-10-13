@@ -285,8 +285,7 @@ Vu Thanh Hai
 <li>Equivalent constrained optimization formulation (“budget” problem): <span class="math display">\[\min_{\beta_0, \beta} \sum_{i=1}^n \left( y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij} \right)^2 \quad \text{subject to} \quad \sum_{j=1}^p |\beta_j| \le s\]</span></li>
 <li>There is a 1-to-1 correspondence between <span class="math inline">\(\lambda\)</span> and budget <span class="math inline">\(s\)</span>.</li>
 </ul>
-
-<img data-src="media/image2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+</section>
 
 <section id="some-details" class="title-slide slide level1 center">
 <h1>Some details</h1>
@@ -310,8 +309,7 @@ Vu Thanh Hai
 <li>However, the problem is <strong>convex</strong>, and fast algorithms (coordinate descent, LARS) make computational cost comparable to Ridge.</li>
 </ul></li>
 </ul>
-
-<img data-src="media/image3.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+</section>
 
 <section id="ols-on-a-budget" class="title-slide slide level1 center">
 <h1>OLS on a “budget”:</h1>
@@ -321,8 +319,7 @@ Vu Thanh Hai
 <li><strong>The Ridge problem</strong>: <span class="math display">\[\min_{\beta} \text{RSS} \quad \text{subject to} \quad \sum_{j=1}^p \beta_j^2 \le s \quad (\ell_2 \text{ disk})\]</span></li>
 <li><strong>The Best Subset selection problem</strong>: <span class="math display">\[\min_{\beta} \text{RSS} \quad \text{subject to} \quad \sum_{j=1}^p I(\beta_j \ne 0) \le s \quad (\ell_0 \text{ pseudo-norm})\]</span></li>
 </ul>
-
-<img data-src="media/image4.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"></section>
+</section>
 
 <section id="shrinkage-interpretation-under-special-case" class="title-slide slide level1 center">
 <h1>Shrinkage interpretation (under special case)</h1>
@@ -332,8 +329,7 @@ Vu Thanh Hai
 <li>The OLS estimator simplifies to: <span class="math display">\[\hat{\beta}^{OLS} = (X^T X)^{-1} X^T Y = X^T Y\]</span></li>
 <li>Element-wise for each predictor <span class="math inline">\(j = 1, \dots, p\)</span>: <span class="math display">\[\hat{\beta}_j^{OLS} = X_j^T Y\]</span></li>
 </ul>
-
-<img data-src="media/image5.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
+</section>
 
 <section id="shrinkage-interpretation-under-special-case-1" class="title-slide slide level1 center">
 <h1>Shrinkage interpretation (under special case)</h1>
@@ -344,8 +340,7 @@ Vu Thanh Hai
 <li>Element-wise: <span class="math display">\[\hat{\beta}_j^R = \frac{\hat{\beta}_j^{OLS}}{1 + \lambda}\]</span></li>
 <li>Ridge applies <strong>proportional shrinkage</strong>: every coefficient is scaled down by the factor <span class="math inline">\(\frac{1}{1+\lambda}\)</span>, regardless of its magnitude.</li>
 </ul>
-
-<img data-src="media/image6.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+</section>
 
 <section id="shrinkage-interpretation-under-special-case-2" class="title-slide slide level1 center">
 <h1>Shrinkage interpretation (under special case)</h1>
@@ -354,8 +349,7 @@ Vu Thanh Hai
 <ul>
 <li>The element-wise solution is given by the <strong>soft-thresholding operator</strong>: <span class="math display">\[\hat{\beta}_j^L = \begin{cases} \hat{\beta}_j^{OLS} - \frac{\lambda}{2} &amp; \text{if } \hat{\beta}_j^{OLS} &gt; \frac{\lambda}{2} \\ \hat{\beta}_j^{OLS} + \frac{\lambda}{2} &amp; \text{if } \hat{\beta}_j^{OLS} &lt; -\frac{\lambda}{2} \\ 0 &amp; \text{if } |\hat{\beta}_j^{OLS}| \le \frac{\lambda}{2} \end{cases} = \text{sign}\left(\hat{\beta}_j^{OLS}\right) \left( |\hat{\beta}_j^{OLS}| - \frac{\lambda}{2} \right)_+\]</span></li>
 </ul>
-
-<img data-src="media/image7.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+</section>
 
 <section id="shrinkage-interpretation-under-special-case-3" class="title-slide slide level1 center">
 <h1>Shrinkage interpretation (under special case)</h1>
@@ -381,17 +375,8 @@ Vu Thanh Hai
 <h1>Shrinkage and selection</h1>
 <p>Comparing the thresholding functions for the orthogonal case:</p>
 <p><span class="math display">\[\hat{\beta} \text{ as a function of } \hat{\beta}^{OLS}\]</span></p>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="media/image9.png"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="media/image10.png"></p>
-</div>
-</div>
-</div>
-<div class="footer-note">
+
+<img data-src="media/image10.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"><div class="footer-note">
 <p>Source: Figure 3.11 in Elements of Statistical Learning (Hastie et al., 2009)</p>
 </div>
 </section>
@@ -433,24 +418,14 @@ Vu Thanh Hai
 <blockquote>
 <p><strong>Key question</strong>: Can we find a compromise between Ridge and LASSO that yields both grouping and sparsity?</p>
 </blockquote>
-
-<img data-src="media/image13.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
+</section>
 
 <section id="lasso-ridge-compromise" class="title-slide slide level1 center">
 <h1>LASSO – Ridge compromise ?</h1>
 <p>One theoretical way to achieve such a compromise is to consider the <strong><span class="math inline">\(L_q\)</span> nesting penalty</strong>:</p>
 <p><span class="math display">\[\min_{\beta} \sum_{i=1}^n \left( y_i - \sum_{j=1}^p \beta_j x_{ij} \right)^2 \quad \text{subject to} \quad \sum_{j=1}^p |\beta_j|^q \le s\]</span></p>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="media/image14.png"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="media/image15.png"></p>
-</div>
-</div>
-</div>
-<div class="footer-note">
+
+<img data-src="media/image14.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"><div class="footer-note">
 <p>Source: Hastie et al.&nbsp;(2009): Elements of Statistical Learning, Springer</p>
 </div>
 </section>
@@ -465,8 +440,7 @@ Vu Thanh Hai
 <li>For <span class="math inline">\(q &lt; 1\)</span>, the constraint region is non-convex, making global optimization computationally intractable.</li>
 <li>In practice, this method does not work well. We need a better alternative.</li>
 </ul>
-
-<img data-src="media/image16.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
+</section>
 
 <section id="the-elastic-net" class="title-slide slide level1 center">
 <h1>The Elastic Net</h1>
@@ -479,16 +453,6 @@ Vu Thanh Hai
 <li><span class="math inline">\(\alpha = 0 \implies \text{Ridge}\)</span></li>
 <li><span class="math inline">\(0 &lt; \alpha &lt; 1 \implies \text{Elastic Net}\)</span></li>
 </ul>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="media/image17.png"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="media/image18.png"></p>
-</div>
-</div>
-</div>
 </section>
 
 <section id="the-elastic-net-1" class="title-slide slide level1 center">
@@ -502,8 +466,7 @@ Vu Thanh Hai
 <li>Overcomes the <span class="math inline">\(p &gt; n\)</span> limitation: can select more than <span class="math inline">\(n\)</span> variables.</li>
 <li>Selection of tuning parameters <span class="math inline">\((\lambda, \alpha)\)</span> can be done jointly by <span class="math inline">\(K\)</span>-fold cross-validation.</li>
 </ul>
-
-<img data-src="media/image19.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+</section>
 
 <section id="the-elastic-net-illustration" class="title-slide slide level1 center">
 <h1>The Elastic Net Illustration</h1>
@@ -526,16 +489,6 @@ Vu Thanh Hai
 </ul></li>
 <li><strong>Theory</strong>: Chernozhukov, Chetverikov, and Liao (2020) establish that CV estimation error converges to zero under regularity conditions in the Normal model.</li>
 </ul>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="media/image21.png"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="media/image22.png"></p>
-</div>
-</div>
-</div>
 </section>
 
 <section id="choice-of-lambda-the-1-se-rule-for-cv" class="title-slide slide level1 center scrollable">
@@ -550,8 +503,7 @@ Vu Thanh Hai
 <p><strong>Important Conceptual Note</strong>: The standard error of the estimated MSE is <strong>not</strong> the standard deviation of <span class="math inline">\(\lambda\)</span>. There is no sampling distribution of <span class="math inline">\(\lambda\)</span> because <span class="math inline">\(\lambda\)</span> is a deterministic tuning choice, not a random variable.</p>
 <p><strong>Rationale</strong>: Models within <span class="math inline">\(1\text{SE}\)</span> are essentially indistinguishable in predictive performance; parsimony dictates choosing the simpler, sparser model.</p>
 </blockquote>
-
-<img data-src="media/image23.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
+</section>
 
 <section id="choice-of-lambda-plug-in-rules" class="title-slide slide level1 center">
 <h1>Choice of <span class="math inline">\(\lambda\)</span>: plug-in rules</h1>
@@ -561,8 +513,7 @@ Vu Thanh Hai
 <li>Extensions exist for correlated regressors and heteroskedastic / clustered errors.</li>
 <li>Implemented in R package <code>hdm</code> via the function <code>rlasso()</code>.</li>
 </ul>
-
-<img data-src="media/image24.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+</section>
 
 <section id="statistical-properties" class="title-slide slide level1 center scrollable">
 <h1>Statistical properties</h1>
@@ -592,8 +543,7 @@ Vu Thanh Hai
 <li>Post-LASSO removes attenuation bias on selected variables while preserving sparsity.</li>
 <li>Theoretical convergence rates are established when combined with plug-in penalties (<code>rlasso(..., post = TRUE)</code>).</li>
 </ul>
-
-<img data-src="media/image25.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
+</section>
 
 <section id="note-on-sparsity" class="title-slide slide level1 center">
 <h1>Note on Sparsity</h1>
@@ -623,8 +573,7 @@ Vu Thanh Hai
 </ul></li>
 <li>Under regularity conditions, SIS enjoys the <strong>sure screening property</strong>: with probability approaching 1, the retained subset contains the true active variables.</li>
 </ul>
-
-<img data-src="media/image26.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
+</section>
 
 <section id="note-on-regressor-transformation" class="title-slide slide level1 center">
 <h1>Note on regressor transformation</h1>
@@ -696,16 +645,6 @@ Vu Thanh Hai
 </tr>
 </tbody>
 </table>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="media/image27.png"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="media/image28.png"></p>
-</div>
-</div>
-</div>
 </section>
 
 <section id="application-r-package-glmnet" class="title-slide slide level1 center">
@@ -740,8 +679,7 @@ Vu Thanh Hai
 <li><code>post = FALSE</code> delivers penalized plug-in estimates.</li>
 <li>Default penalty adjusts for heteroskedasticity and non-Gaussian errors.</li>
 </ul>
-
-<img data-src="media/image29.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+</section>
 
 <section id="application-effect-of-lambda-on-coefficients" class="title-slide slide level1 center">
 <h1>Application: effect of <span class="math inline">\(\lambda\)</span> on coefficients</h1>
@@ -1005,8 +943,7 @@ Vu Thanh Hai
 <li><strong>Tuning parameter choice</strong>: critical in practice; use <span class="math inline">\(K\)</span>-fold cross-validation (with 1SE rule) or theoretically justified plug-in rules (<code>rlasso</code>).</li>
 </ul>
 
-
-<img data-src="media/image33.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
