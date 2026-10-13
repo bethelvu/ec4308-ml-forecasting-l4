@@ -1,0 +1,12 @@
+/*-- scss:defaults --*/
+$body-bg: #ffffff;
+$body-color: #1a1a1a;
+$presentation-heading-color: #1f3864;
+$link-color: #1f6f2e;
+$code-color: #c00000;
+
+/*-- scss:rules --*/
+.reveal .slides section h1 { color: #1f3864; }
+.reveal .slides section h3 { color: #1f6f2e; }
+.reveal .footer-note { color: #6aa84f; font-size: 0.5em; }
+.reveal blockquote { border-left: 4px solid #1f6f2e; background: #f0f7f0; padding: 0.3em 0.8em; }
