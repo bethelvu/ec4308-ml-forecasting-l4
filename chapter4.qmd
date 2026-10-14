@@ -6,6 +6,7 @@ institute: "NUS Department of Economics"
 format:
   revealjs:
     theme: [default, theme.scss]
+    css: custom.css
     slide-number: true
     smaller: true
     scrollable: true

@@ -4,38 +4,36 @@ $body-color: #1a1a1a;
 $presentation-heading-color: #1f3864;
 $link-color: #1f6f2e;
 $code-color: #c00000;
-$presentation-h1-font-size: 1.2em;
-$presentation-h2-font-size: 1.15em;
-$presentation-h3-font-size: 1.05em;
+$presentation-h1-font-size: 1.0em;
+$presentation-h2-font-size: 1.0em;
+$presentation-h3-font-size: 1.0em;
 $presentation-h4-font-size: 1.0em;
+$revealjs-h1-font-size: 1.0em;
+$revealjs-h2-font-size: 1.0em;
+$revealjs-h3-font-size: 1.0em;
+$revealjs-h4-font-size: 1.0em;
 
 /*-- scss:rules --*/
-.reveal .slides section h1 {
-  color: #1f3864;
-  font-size: var(--r-heading4-size, 1.2em);
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  font-weight: 700;
+.reveal .slides section h1,
+.reveal .slides section h2,
+.reveal .slides section h3,
+.reveal .slides section h4,
+.reveal .slides section.title-slide h1,
+.reveal .title-slide h1,
+.reveal[data-navigation-mode="linear"] .title-slide h1,
+.reveal[data-navigation-mode="linear"] .slides section h1 {
+  font-size: 1.0em !important;
+  color: #1f3864 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.5em !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
 }
 
-.reveal .slides section h2 {
-  font-size: var(--r-heading4-size, 1.2em);
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  font-weight: 700;
-}
-
-.reveal .slides section h3 {
-  color: #1f6f2e;
-  font-size: 1.05em;
-}
-
-.reveal .slides section h4 {
-  font-size: 1.0em;
-}
-
-.reveal .slides section#title-slide h1.title {
-  font-size: 1.7em;
+.reveal .slides section#title-slide h1.title,
+.reveal[data-navigation-mode="linear"] #title-slide h1.title {
+  font-size: 1.75em !important;
+  color: #1f3864 !important;
 }
 
 .reveal .footer-note { color: #6aa84f; font-size: 0.5em; }

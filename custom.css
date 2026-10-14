@@ -1,0 +1,23 @@
+/* Override RevealJS and Quarto slide titles to Header 4 size */
+.reveal .slides section h1,
+.reveal .slides section h2,
+.reveal .slides section h3,
+.reveal .slides section h4,
+.reveal .slides section.title-slide h1,
+.reveal .title-slide h1,
+.reveal[data-navigation-mode="linear"] .title-slide h1,
+.reveal[data-navigation-mode="linear"] .slides section h1 {
+  font-size: 1.0em !important;
+  color: #1f3864 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.5em !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+}
+
+/* Main presentation title on Slide 1 */
+.reveal .slides section#title-slide h1.title,
+.reveal[data-navigation-mode="linear"] #title-slide h1.title {
+  font-size: 1.75em !important;
+  color: #1f3864 !important;
+}
