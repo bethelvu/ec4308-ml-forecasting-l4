@@ -331,13 +331,19 @@ Vu Thanh Hai
 
 <section id="lasso-ridge-compromise-1" class="title-slide slide level1 center">
 <h1>LASSO – Ridge compromise ?</h1>
+<div class="columns">
+<div class="column" style="width:45%;">
 <ul>
 <li>Nesting penalty: <span class="math display">\[\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}|\beta_j|^{q}\]</span></li>
 <li>The values of <span class="math inline">\(q\)</span> between <span class="math inline">\(1\)</span> and 2 suggest compromise between LASSO and Ridge (why?).</li>
-<li>For <span class="math inline">\(q &gt; 1\)</span> the function is differentiable at zero, so the selection ability of the LASSO is lost.</li>
+<li><strong>For <span class="math inline">\(q &gt; 1\)</span> the function is differentiable at zero, so the selection ability of the LASSO is lost.</strong></li>
 <li>In practice, this method does not work so well.</li>
-<li>Computation is more costly for general q than Ridge and LASSO. Thus, we can look at a better alternative.</li>
+<li>Computation is more costly for general <span class="math inline">\(q\)</span> than Ridge and LASSO. Thus, we can look at a better alternative.</li>
 </ul>
+</div><div class="column" style="width:55%;">
+<iframe src="q-slider-demo.html" width="100%" height="520" style="border:none; border-radius:6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+</iframe>
+</div></div>
 </section>
 
 <section id="the-elastic-net" class="title-slide slide level1 center">

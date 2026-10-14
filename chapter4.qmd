@@ -176,12 +176,20 @@ Source: Hastie et al. (2009): *Elements of Statistical Learning*, Springer
 
 # LASSO – Ridge compromise ?
 
+:::: {.columns}
+::: {.column width="45%"}
 - Nesting penalty:
 $$\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}|\beta_j|^{q}$$
 - The values of $q$ between $1$ and 2 suggest compromise between LASSO and Ridge (why?).
-- For $q > 1$ the function is differentiable at zero, so the selection ability of the LASSO is lost.
+- **For $q > 1$ the function is differentiable at zero, so the selection ability of the LASSO is lost.**
 - In practice, this method does not work so well.
-- Computation is more costly for general q than Ridge and LASSO. Thus, we can look at a better alternative.
+- Computation is more costly for general $q$ than Ridge and LASSO. Thus, we can look at a better alternative.
+:::
+
+::: {.column width="55%"}
+<iframe src="q-slider-demo.html" width="100%" height="520" style="border:none; border-radius:6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></iframe>
+:::
+::::
 
 # The Elastic Net
 
