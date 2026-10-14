@@ -239,8 +239,9 @@
     </div>
 
     <div class="card" style="padding:6px 10px;">
-      <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:2px;">
-        1D Penalty Function: f(&beta;) = |&beta;|<sup>q</sup>
+      <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:2px; display:flex; justify-content:space-between; align-items:center;">
+        <span>1D Penalty Function: f(&beta;) = |&beta;|<sup>q</sup></span>
+        <span style="font-size:10.5px; font-weight:normal; color:#64748b;">(y-axis auto-scaled)</span>
       </div>
       <canvas id="curveCanvas"></canvas>
       <div style="font-size:11px; color:#64748b; margin-top:2px; display:flex; justify-content:space-between;">
@@ -506,16 +507,23 @@
     ctx.clearRect(0, 0, w, h);
     var pad = 12;
     var bMax = 1.5;
-    var fMax = 2.0;
+    var curveMax = Math.pow(bMax, q);
+    var fMax = curveMax * 1.12; // 12% headroom so the curve never clips against the top
 
     function cx(b) { return pad + ((b + bMax) / (2 * bMax)) * (w - 2 * pad); }
-    function cy(f) { return h - pad - (Math.min(f, fMax) / fMax) * (h - 2 * pad); }
+    function cy(f) { return h - pad - (f / fMax) * (h - 2 * pad); }
 
     // Axes
     ctx.strokeStyle = '#cbd5e1';
     ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(cx(-bMax), cy(0)); ctx.lineTo(cx(bMax), cy(0)); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx(0), cy(0)); ctx.lineTo(cx(0), cy(fMax)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx(0), cy(0)); ctx.lineTo(cx(0), cy(fMax * 0.98)); ctx.stroke();
+
+    // Axis label showing current max & auto-scale indicator
+    ctx.fillStyle = '#64748b';
+    ctx.font = '10px sans-serif';
+    ctx.fillText('max: ' + curveMax.toFixed(2), cx(0) + 5, cy(curveMax) + 11);
+    ctx.fillText('y-axis auto-scaled', w - pad - 88, pad + 10);
 
     // Plot f(b) = |b|^q
     ctx.beginPath();
@@ -538,7 +546,7 @@
 
     // Tangent indicators
     if (q > 1.0) {
-      // horizontal tangent line at 0
+      // horizontal tangent line at 0 (shows f'(0)=0)
       ctx.strokeStyle = '#1F6F2E';
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -546,7 +554,7 @@
       ctx.lineTo(cx(0.4), cy(0));
       ctx.stroke();
     } else if (Math.abs(q - 1.0) <= 0.04) {
-      // corner lines
+      // corner lines (shows V-kink at 0)
       ctx.strokeStyle = '#c00000';
       ctx.lineWidth = 1.5;
       ctx.setLineDash([3, 2]);
