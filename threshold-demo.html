@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soft vs. hard thresholding (orthonormal case)</title>
+<style>
+  :root { --navy:#1F3864; --green:#1F6F2E; --ridge:#2b6cb0; --subset:#c05621; --grey:#9aa0a6; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:10px 12px; font-family: "Source Sans Pro", "Segoe UI", Arial, sans-serif; color:#1a1a1a; background:#fff; }
+  .controls { display:flex; flex-wrap:wrap; align-items:center; gap:8px 18px; margin-bottom:6px; font-size:15px; }
+  .controls label { white-space:nowrap; }
+  input[type=range] { width:220px; vertical-align:middle; accent-color: var(--green); }
+  .val { font-weight:700; color:var(--navy); min-width:3.2em; display:inline-block; }
+  .panels { display:flex; flex-wrap:wrap; gap:10px; }
+  .panel { flex:1 1 360px; min-width:280px; }
+  .panel h4 { margin:2px 0 2px; font-size:14px; color:var(--navy); font-weight:600; }
+  canvas { width:100%; height:300px; display:block; border:1px solid #eee; border-radius:4px; touch-action:none; }
+  .legend { font-size:13px; margin-top:4px; line-height:1.5; }
+  .sw { display:inline-block; width:12px; height:12px; border-radius:2px; vertical-align:-1px; margin-right:4px; }
+  .note { font-size:12.5px; color:#555; margin-top:6px; line-height:1.4; }
+</style>
+</head>
+<body>
+<div class="controls">
+  <label>&lambda; <input id="lam" type="range" min="0" max="4" step="0.01" value="1"> <span class="val" id="lamv">1.00</span></label>
+  <label><input type="checkbox" id="showR" checked> Ridge</label>
+  <label><input type="checkbox" id="showL" checked> LASSO</label>
+  <label><input type="checkbox" id="showS" checked> Best subset</label>
+</div>
+<div class="panels">
+  <div class="panel">
+    <h4>Estimate as a function of the OLS estimate</h4>
+    <canvas id="curves"></canvas>
+    <div class="legend">
+      <span class="sw" style="background:var(--grey)"></span>OLS (45° line)&nbsp;
+      <span class="sw" style="background:var(--ridge)"></span>Ridge&nbsp;
+      <span class="sw" style="background:var(--green)"></span>LASSO&nbsp;
+      <span class="sw" style="background:var(--subset)"></span>Best subset
+    </div>
+  </div>
+  <div class="panel">
+    <h4>Eight example coefficients</h4>
+    <canvas id="bars"></canvas>
+    <div class="legend" id="zeros"></div>
+  </div>
+</div>
+<div class="note">
+  Orthonormal design <i>X&prime;X = I<sub>P</sub></i>, as on slides 8&ndash;10.
+  Ridge: <i>&beta;&#770;<sub>j</sub><sup>OLS</sup>/(1+&lambda;)</i> (slide 9).
+  LASSO: soft threshold at <i>&lambda;/2</i> (slide 10).
+  Best subset is written here in penalized form <i>RSS + &lambda;&middot;#{&beta;<sub>j</sub>&ne;0}</i>, whose solution keeps
+  <i>&beta;&#770;<sub>j</sub><sup>OLS</sup></i> unchanged if <i>|&beta;&#770;<sub>j</sub><sup>OLS</sup>| &gt; &radic;&lambda;</i> and sets it to 0 otherwise (hard threshold).
+  The example coefficients are illustrative numbers, not data.
+</div>
+<script>
+(function () {
+  var lamEl = document.getElementById('lam'), lamV = document.getElementById('lamv');
+  var showR = document.getElementById('showR'), showL = document.getElementById('showL'), showS = document.getElementById('showS');
+  var cv1 = document.getElementById('curves'), cv2 = document.getElementById('bars');
+  var zerosEl = document.getElementById('zeros');
+  var COL = { navy:'#1F3864', green:'#1F6F2E', ridge:'#2b6cb0', subset:'#c05621', grey:'#9aa0a6' };
+  var EX = [3.2, -2.5, 1.8, 1.1, -0.7, 0.45, -0.25, 0.1];
+
+  function ridge(b, l) { return b / (1 + l); }
+  function lasso(b, l) { var a = Math.abs(b) - l / 2; return a > 0 ? (b > 0 ? a : -a) : 0; }
+  function subset(b, l) { return Math.abs(b) > Math.sqrt(l) ? b : 0; }
+
+  function setup(cv) {
+    var dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    var ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx: ctx, w: w, h: h };
+  }
+
+  function drawCurves(l) {
+    var s = setup(cv1), ctx = s.ctx, w = s.w, h = s.h, pad = 30, R = 4;
+    var X = function (x) { return pad + (x + R) / (2 * R) * (w - 2 * pad); };
+    var Y = function (y) { return h - pad - (y + R) / (2 * R) * (h - 2 * pad); };
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1;
+    for (var g = -R; g <= R; g++) {
+      ctx.beginPath(); ctx.moveTo(X(g), Y(-R)); ctx.lineTo(X(g), Y(R)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(X(-R), Y(g)); ctx.lineTo(X(R), Y(g)); ctx.stroke();
+    }
+    ctx.strokeStyle = '#333'; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(X(-R), Y(0)); ctx.lineTo(X(R), Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0), Y(-R)); ctx.lineTo(X(0), Y(R)); ctx.stroke();
+    ctx.fillStyle = '#444'; ctx.font = '12px sans-serif';
+    ctx.fillText('OLS estimate', w - pad - 70, Y(0) + 15);
+    ctx.save(); ctx.translate(X(0) - 8, pad + 60); ctx.rotate(-Math.PI / 2); ctx.fillText('estimate', 0, 0); ctx.restore();
+    for (var t = -R; t <= R; t += 2) { if (t !== 0) { ctx.fillText(String(t), X(t) - 4, Y(0) + 14); } }
+
+    function thr(x, col) {
+      ctx.strokeStyle = col; ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+      [x, -x].forEach(function (v) { ctx.beginPath(); ctx.moveTo(X(v), Y(-R)); ctx.lineTo(X(v), Y(R)); ctx.stroke(); });
+      ctx.setLineDash([]);
+    }
+    if (showL.checked && l > 0) thr(l / 2, 'rgba(31,111,46,0.5)');
+    if (showS.checked && l > 0) thr(Math.sqrt(l), 'rgba(192,86,33,0.5)');
+
+    function curve(f, col, wd) {
+      ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.beginPath();
+      var prev = null;
+      for (var i = 0; i <= 800; i++) {
+        var x = -R + 2 * R * i / 800, y = f(x);
+        if (prev !== null && Math.abs(y - prev) > 0.5) { ctx.stroke(); ctx.beginPath(); ctx.moveTo(X(x), Y(y)); }
+        else if (i === 0) ctx.moveTo(X(x), Y(y)); else ctx.lineTo(X(x), Y(y));
+        prev = y;
+      }
+      ctx.stroke();
+    }
+    curve(function (x) { return x; }, COL.grey, 2);
+    if (showR.checked) curve(function (x) { return ridge(x, l); }, COL.ridge, 2.5);
+    if (showS.checked) curve(function (x) { return subset(x, l); }, COL.subset, 2.5);
+    if (showL.checked) curve(function (x) { return lasso(x, l); }, COL.green, 3);
+  }
+
+  function drawBars(l) {
+    var s = setup(cv2), ctx = s.ctx, w = s.w, h = s.h, pad = 26, R = 3.5;
+    var series = [{ f: function (b) { return b; }, c: COL.grey, on: true }];
+    if (showR.checked) series.push({ f: function (b) { return ridge(b, l); }, c: COL.ridge, on: true });
+    if (showL.checked) series.push({ f: function (b) { return lasso(b, l); }, c: COL.green, on: true });
+    if (showS.checked) series.push({ f: function (b) { return subset(b, l); }, c: COL.subset, on: true });
+    var Y = function (y) { return pad + (R - y) / (2 * R) * (h - 2 * pad); };
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = '#333'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad, Y(0)); ctx.lineTo(w - 6, Y(0)); ctx.stroke();
+    var gw = (w - pad - 6) / EX.length, bw = Math.min(14, (gw - 6) / series.length);
+    ctx.font = '11px sans-serif';
+    EX.forEach(function (b, k) {
+      var x0 = pad + k * gw + (gw - bw * series.length) / 2;
+      series.forEach(function (sr, m) {
+        var v = sr.f(b), x = x0 + m * bw;
+        ctx.fillStyle = sr.c;
+        if (v === 0) { ctx.fillRect(x, Y(0) - 1, bw - 2, 2); }
+        else { var y0 = Y(0), y1 = Y(v); ctx.fillRect(x, Math.min(y0, y1), bw - 2, Math.abs(y1 - y0)); }
+      });
+      ctx.fillStyle = '#555'; ctx.fillText('\u03b2' + (k + 1), pad + k * gw + gw / 2 - 7, h - 6);
+    });
+    var zr = EX.filter(function (b) { return ridge(b, l) === 0; }).length;
+    var zl = EX.filter(function (b) { return lasso(b, l) === 0; }).length;
+    var zs = EX.filter(function (b) { return subset(b, l) === 0; }).length;
+    zerosEl.innerHTML = 'Coefficients set exactly to 0 &mdash; ' +
+      '<b style="color:' + COL.ridge + '">Ridge: ' + zr + '</b> &nbsp; ' +
+      '<b style="color:' + COL.green + '">LASSO: ' + zl + '</b> &nbsp; ' +
+      '<b style="color:' + COL.subset + '">Best subset: ' + zs + '</b> (of 8)';
+  }
+
+  function draw() {
+    var l = parseFloat(lamEl.value);
+    lamV.textContent = l.toFixed(2);
+    drawCurves(l); drawBars(l);
+  }
+  [lamEl, showR, showL, showS].forEach(function (el) { el.addEventListener('input', draw); el.addEventListener('change', draw); });
+  window.addEventListener('resize', draw);
+  draw();
+})();
+</script>
+</body>
+</html>

@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.19">
 
   <meta name="author" content="Vu Thanh Hai">
-  <title>Chapter 4 — Regression with Penalization: LASSO and Elastic Net</title>
+  <title>Chapter 4 — Regression with penalization: LASSO</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -34,72 +34,6 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      { color: #003b4f; background-color: #f1f3f5; }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #003b4f; } /* Normal */
-    code span.al { color: #ad0000; } /* Alert */
-    code span.an { color: #5e5e5e; } /* Annotation */
-    code span.at { color: #657422; } /* Attribute */
-    code span.bn { color: #ad0000; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #20794d; } /* Char */
-    code span.cn { color: #8f5902; } /* Constant */
-    code span.co { color: #5e5e5e; } /* Comment */
-    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-    code span.dt { color: #ad0000; } /* DataType */
-    code span.dv { color: #ad0000; } /* DecVal */
-    code span.er { color: #ad0000; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #ad0000; } /* Float */
-    code span.fu { color: #4758ab; } /* Function */
-    code span.im { color: #00769e; } /* Import */
-    code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
-    code span.op { color: #5e5e5e; } /* Operator */
-    code span.ot { color: #003b4f; } /* Other */
-    code span.pp { color: #ad0000; } /* Preprocessor */
-    code span.sc { color: #5e5e5e; } /* SpecialChar */
-    code span.ss { color: #20794d; } /* SpecialString */
-    code span.st { color: #20794d; } /* String */
-    code span.va { color: #111111; } /* Variable */
-    code span.vs { color: #20794d; } /* VerbatimString */
-    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="chapter4_files/libs/revealjs/dist/theme/quarto-971610845bcf2540dbdc01bcf93d2054.css">
   <link href="chapter4_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -200,7 +134,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Chapter 4 — Regression with Penalization: LASSO and Elastic Net</h1>
+  <h1 class="title">Chapter 4 — Regression with penalization: LASSO</h1>
   <p class="subtitle">EC4308 · Machine Learning and Economic Forecasting</p>
 
 <div class="quarto-title-authors">
@@ -217,12 +151,12 @@ Vu Thanh Hai
 </section>
 <section id="chapter-four" class="title-slide slide level1 center">
 <h1>CHAPTER FOUR</h1>
-<p><strong>Regression with penalization: LASSO and Elastic Net</strong></p>
+<p><strong>Regression with penalization: LASSO</strong></p>
 <ul>
 <li>Module Code: <strong>EC4308</strong></li>
 <li>Module title: <strong>Machine Learning and Economic Forecasting</strong></li>
 <li>Instructor: <strong>Vu Thanh Hai</strong></li>
-<li>Reference: <strong>ISLR Ch. 6.2.2–6.2.3; 6.4.3–6.4.4</strong></li>
+<li>Reference: ISLR Ch. 6.2.2–6.2.3; 6.4.3–6.4.4</li>
 <li><em>Acknowledgement: I adapt Dr.&nbsp;Denis Tkachenko’s notes with some minor modifications. Thanks to Denis!</em></li>
 </ul>
 </section>
@@ -230,460 +164,391 @@ Vu Thanh Hai
 <section id="lecture-outline" class="title-slide slide level1 center scrollable">
 <h1>Lecture outline</h1>
 <ol type="1">
-<li><strong>The LASSO</strong>: introduction and motivation</li>
-<li><strong>The LASSO problem and details</strong></li>
-<li><strong>Interpreting LASSO shrinkage</strong> vs.&nbsp;Ridge and best subset</li>
-<li>Combining LASSO and Ridge: the <strong>Elastic Net</strong></li>
-<li><strong>Choice of tuning parameter</strong> (<span class="math inline">\(\lambda\)</span>)</li>
-<li>Notes on statistical properties, sparsity, and regressor screening</li>
-<li><strong>Application</strong>: Credit data (using <code>glmnet</code> and <code>hdm</code>)</li>
-<li><strong>Concluding remarks</strong></li>
+<li>The LASSO: introduction and motivation.</li>
+<li>The LASSO problem and details</li>
+<li>Interpreting LASSO shrinkage vs.&nbsp;Ridge and best subset</li>
+<li>Combining LASSO and Ridge: the Elastic Net</li>
+<li>Choice of tuning parameter (<span class="math inline">\(\lambda\)</span>)</li>
+<li>Notes on statistical properties and regressor choice.</li>
+<li>Application: Credit data.</li>
+<li>Concluding remarks.</li>
 </ol>
 </section>
 
-<section id="motivation-drawbacks-of-ridge" class="title-slide slide level1 center scrollable">
+<section id="motivation-drawbacks-of-ridge" class="title-slide slide level1 center">
 <h1>Motivation: drawbacks of Ridge</h1>
-<p>So far we saw two approaches to regularizing linear regression:</p>
-<ol type="1">
-<li><strong>Subset selection</strong>:
 <ul>
-<li>Resulted in very interpretable models, and estimated those models without much bias.</li>
-<li><strong>Two issues</strong>: 1) potentially high variance due to the discrete nature of the problem; 2) computationally costly for <span class="math inline">\(p &gt; 30\)</span> (combinatorial explosion, <span class="math inline">\(2^p\)</span> models).</li>
-</ul></li>
-<li><strong>Ridge regression</strong>:
-<ul>
-<li>Results in low-variance predictions, but coefficient estimates are biased due to shrinkage toward zero.</li>
-<li><strong>Key drawback</strong>: keeps all <span class="math inline">\(p\)</span> predictors in the model (<span class="math inline">\(\hat{\beta}_j^R \ne 0\)</span>) — <em>loss of interpretability</em>.</li>
-</ul></li>
-</ol>
-<blockquote>
-<p><strong>Goal</strong>: Need to find a way to keep the good features of both methods while mitigating the drawbacks: achieve <strong>variance reduction</strong> like Ridge and <strong>variable selection</strong> like subset selection.</p>
-</blockquote>
+<li>So far we saw 2 approaches to regularizing linear regression.</li>
+<li>Subset selection resulted in very interpretable models, and estimated those models without much bias. Two issues: 1) potentially high variance due to discrete nature of the problem; 2) computationally costly for <span class="math inline">\(P &gt; 30\)</span> thus might need some clever tricks.</li>
+<li>Ridge regression results in low variance predictions, but coefficient estimates are biased due to shrinkage to 0. Also, includes all <span class="math inline">\(P\)</span> predictors in the models – loss of interpretability.</li>
+<li>Need to find a way to keep the good features of both methods while mitigating the drawbacks.</li>
+</ul>
 </section>
 
 <section id="motivation-idea-of-lasso" class="title-slide slide level1 center">
 <h1>Motivation: Idea of LASSO</h1>
-<p><strong>Tibshirani (1996)</strong> proposed an alternative shrinkage procedure with the idea to do just that!</p>
 <ul>
-<li><strong>Least Absolute Shrinkage and Selection Operator (LASSO)</strong>.</li>
-<li><strong>The main idea is to shrink AND select</strong>:
-<ul>
-<li>The coefficients are shrunk away from their OLS counterparts;</li>
-<li>Crucially, some are shrunk <strong>EXACTLY to 0</strong>.</li>
-</ul></li>
-<li><strong>Computational complexity</strong> is kept under control via convex optimization.</li>
-<li><strong>VERY popular in economics</strong>, particularly due to the model selection aspect and post-selection inference theory.</li>
+<li>Tibshirani (1996) proposed an alternative shrinkage procedure with the idea to do just that!</li>
+<li><strong>L</strong>east <strong>A</strong>bsolute <strong>S</strong>hrinkage and <strong>S</strong>election <strong>O</strong>perator (LASSO).</li>
+<li>The main idea is to shrink AND select: the coefficients are shrunk away from OLS counterparts, but some are shrunk EXACTLY to 0.</li>
+<li>Computational complexity can be kept under control.</li>
+<li>VERY popular in economics, particularly due to the model selection aspect. Also, some theories are derived for LASSO under some assumptions.</li>
 </ul>
 </section>
 
 <section id="lasso-method" class="title-slide slide level1 center">
 <h1>LASSO method</h1>
-<p>LASSO is similar to Ridge at first glance, with a small but subtle difference in the penalty:</p>
-<p><span class="math display">\[\min_{\beta_0, \beta} \left\{ \sum_{i=1}^n \left( y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij} \right)^2 + \lambda \sum_{j=1}^p |\beta_j| \right\} = \text{RSS} + \lambda \|\beta\|_1\]</span></p>
 <ul>
-<li><span class="math inline">\(\lambda \ge 0\)</span> is the <strong>tuning parameter</strong> (penalty multiplier), and <span class="math inline">\(\sum_{j=1}^p |\beta_j| = \|\beta\|_1\)</span> is the <strong><span class="math inline">\(\ell_1\)</span>-norm penalty</strong>.</li>
-<li>Equivalent constrained optimization formulation (“budget” problem): <span class="math display">\[\min_{\beta_0, \beta} \sum_{i=1}^n \left( y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij} \right)^2 \quad \text{subject to} \quad \sum_{j=1}^p |\beta_j| \le s\]</span></li>
-<li>There is a 1-to-1 correspondence between <span class="math inline">\(\lambda\)</span> and budget <span class="math inline">\(s\)</span>.</li>
+<li>LASSO is similar to Ridge at first glance, with a small but subtle difference:</li>
 </ul>
+<p><span class="math display">\[\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}|\beta_j| = RSS+\lambda\sum_{j=1}^{P}|\beta_j|\]</span></p>
+<ul>
+<li><span class="math inline">\(\lambda \ge 0\)</span> is again a tuning parameter and the 2<sup>nd</sup> term is the shrinkage penalty.</li>
+<li>The penalty is the <span class="math inline">\(L_1\)</span>-norm penalty: <span class="math inline">\(\|\boldsymbol\beta\|_1=\sum_{j=1}^{P}|\beta_j|\)</span></li>
+<li>Equivalent to solving the problem:</li>
+</ul>
+<p><span class="math display">\[\min_{\{\beta_i\}_{i=0}^{P}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2 \;\text{ s.t. }\; \sum_{j=1}^{P}|\beta_j|\le t\]</span></p>
 </section>
 
 <section id="some-details" class="title-slide slide level1 center">
 <h1>Some details</h1>
 <ul>
-<li><strong>Intercept is not penalized</strong>: The summation over <span class="math inline">\(\beta\)</span> goes from <span class="math inline">\(1\)</span> to <span class="math inline">\(p\)</span>.
-<ul>
-<li>For this reason, variables and outcomes are usually <strong>de-meaned</strong> before estimation: <span class="math inline">\(\bar{y} = 0, \bar{x}_j = 0\)</span>, so <span class="math inline">\(\hat{\beta}_0 = 0\)</span>.</li>
-</ul></li>
-<li><strong>Scale dependence</strong>: LASSO, like Ridge, is <strong>not scale invariant</strong>.
-<ul>
-<li>All regressors must be in the same units: regressors are typically <strong>standardized</strong> to unit variance (<span class="math inline">\(\frac{1}{n} \sum_i x_{ij}^2 = 1\)</span>).</li>
-</ul></li>
-<li><strong>Lack of invariance to linear transformations</strong>:
-<ul>
-<li>LASSO on <span class="math inline">\((X_1, X_2)\)</span> is not the same as on <span class="math inline">\((X_1 + X_2, X_1 - X_2)\)</span>, despite identical OLS solutions.</li>
-<li>Domain knowledge and contextual justification are critical.</li>
-</ul></li>
-<li><strong>No closed-form solution</strong>:
-<ul>
-<li>Unlike Ridge, the LASSO estimator has no closed-form matrix formula because the absolute value function is non-differentiable at zero.</li>
-<li>However, the problem is <strong>convex</strong>, and fast algorithms (coordinate descent, LARS) make computational cost comparable to Ridge.</li>
-</ul></li>
+<li>The summation over betas goes from 1 to P – intercept is not penalized. For this reason, all the variables are usually de-meaned before using LASSO estimation.</li>
+<li>LASSO, like Ridge, is not scale invariant. All the regressors must be in the same units: for this reason, typically all the X’s are standardized.</li>
+<li>LASSO is not invariant to linear transformations of regressors. E.g., LASSO on <span class="math inline">\((X_1, X_2)\)</span> is not the same as on <span class="math inline">\((X_1 - X_2, X_2)\)</span> despite identical OLS solutions. This is a concern since we do not know which form should enter the regression (ending up with trial and error).</li>
+<li>Unlike Ridge, the LASSO estimator does not have closed form solution, even though the problem is convex. Computational cost is about the same as Ridge.</li>
 </ul>
 </section>
 
 <section id="ols-on-a-budget" class="title-slide slide level1 center">
 <h1>OLS on a “budget”:</h1>
-<p>Comparing the constrained formulations reveals the geometry of each penalty:</p>
 <ul>
-<li><strong>The LASSO problem</strong>: <span class="math display">\[\min_{\beta} \text{RSS} \quad \text{subject to} \quad \sum_{j=1}^p |\beta_j| \le s \quad (\ell_1 \text{ ball})\]</span></li>
-<li><strong>The Ridge problem</strong>: <span class="math display">\[\min_{\beta} \text{RSS} \quad \text{subject to} \quad \sum_{j=1}^p \beta_j^2 \le s \quad (\ell_2 \text{ disk})\]</span></li>
-<li><strong>The Best Subset selection problem</strong>: <span class="math display">\[\min_{\beta} \text{RSS} \quad \text{subject to} \quad \sum_{j=1}^p I(\beta_j \ne 0) \le s \quad (\ell_0 \text{ pseudo-norm})\]</span></li>
+<li>The LASSO problem: <span class="math display">\[\min_{\{\beta_i\}_{i=0}^{P}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2 \;\text{ s.t. }\; \sum_{j=1}^{P}|\beta_j|\le t\]</span></li>
+<li>The Ridge problem: <span class="math display">\[\min_{\{\beta_i\}_{i=0}^{P}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2 \;\text{ s.t. }\; \sum_{j=1}^{P}\beta_j^2\le \tau\]</span></li>
+<li>The best subset selection problem: <span class="math display">\[\min_{\{\beta_i\}_{i=0}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2 \;\text{ s.t. }\; \sum_{j=1}^{P}\mathbf{I}(\beta_j\neq 0)\le s\]</span></li>
 </ul>
 </section>
 
 <section id="shrinkage-interpretation-under-special-case" class="title-slide slide level1 center">
 <h1>Shrinkage interpretation (under special case)</h1>
-<p>To see the exact mechanism of shrinkage, consider the <strong>orthonormal regressors case</strong>:</p>
-<p><span class="math display">\[X^T X = I_p \quad \text{and} \quad \sum_{i=1}^n y_i = 0\]</span></p>
 <ul>
-<li>The OLS estimator simplifies to: <span class="math display">\[\hat{\beta}^{OLS} = (X^T X)^{-1} X^T Y = X^T Y\]</span></li>
-<li>Element-wise for each predictor <span class="math inline">\(j = 1, \dots, p\)</span>: <span class="math display">\[\hat{\beta}_j^{OLS} = X_j^T Y\]</span></li>
+<li>Consider the orthonormal regressors case: <span class="math inline">\(\boldsymbol{X}'\boldsymbol{X}=\boldsymbol{I}_P\)</span></li>
+<li>We assume <span class="math inline">\(P &lt; N\)</span>.</li>
+<li>OLS estimator given by (derived in the last lecture): <span class="math display">\[\hat{\boldsymbol\beta}^{OLS}=(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y}=\mathbf{I}_P\mathbf{X}'\mathbf{y}=\mathbf{X}'\mathbf{y}\]</span></li>
+<li>Element-wise: <span class="math display">\[\hat\beta_j^{OLS}=\sum_{i=1}^{N}x_{ij}y_i\]</span></li>
 </ul>
 </section>
 
 <section id="shrinkage-interpretation-under-special-case-1" class="title-slide slide level1 center">
 <h1>Shrinkage interpretation (under special case)</h1>
-<p>Under the same orthonormal design, <strong>Ridge regression</strong> minimizes:</p>
-<p><span class="math display">\[\sum_{i=1}^n \left( y_i - \sum_{j=1}^p \beta_j x_{ij} \right)^2 + \lambda \sum_{j=1}^p \beta_j^2\]</span></p>
 <ul>
-<li>The solution is: <span class="math display">\[\hat{\beta}^R = (X^T X + \lambda I)^{-1} X^T Y = (I + \lambda I)^{-1} X^T Y = \frac{1}{1 + \lambda} X^T Y\]</span></li>
-<li>Element-wise: <span class="math display">\[\hat{\beta}_j^R = \frac{\hat{\beta}_j^{OLS}}{1 + \lambda}\]</span></li>
-<li>Ridge applies <strong>proportional shrinkage</strong>: every coefficient is scaled down by the factor <span class="math inline">\(\frac{1}{1+\lambda}\)</span>, regardless of its magnitude.</li>
+<li>Ridge regression chooses betas to minimize: <span class="math display">\[\hat{\boldsymbol\beta}_\lambda^{R}=\arg\min\,(\mathbf{y}-\mathbf{X}\boldsymbol\beta)'(\mathbf{y}-\mathbf{X}\boldsymbol\beta)+\lambda\boldsymbol\beta'\boldsymbol\beta\]</span></li>
+<li>The solution is familiar from the last class: <span class="math display">\[\hat{\boldsymbol\beta}_\lambda^{R}=\frac{\hat{\boldsymbol\beta}_{OLS}}{(1+\lambda)}\]</span></li>
+<li>Elementwise: <span class="math display">\[\hat\beta_j^{R}=\frac{\hat\beta_j^{OLS}}{(1+\lambda)}\]</span></li>
 </ul>
 </section>
 
 <section id="shrinkage-interpretation-under-special-case-2" class="title-slide slide level1 center">
 <h1>Shrinkage interpretation (under special case)</h1>
-<p>Under the same orthonormal design, <strong>LASSO</strong> minimizes:</p>
-<p><span class="math display">\[\sum_{i=1}^n \left( y_i - \sum_{j=1}^p \beta_j x_{ij} \right)^2 + \lambda \sum_{j=1}^p |\beta_j|\]</span></p>
 <ul>
-<li>The element-wise solution is given by the <strong>soft-thresholding operator</strong>: <span class="math display">\[\hat{\beta}_j^L = \begin{cases} \hat{\beta}_j^{OLS} - \frac{\lambda}{2} &amp; \text{if } \hat{\beta}_j^{OLS} &gt; \frac{\lambda}{2} \\ \hat{\beta}_j^{OLS} + \frac{\lambda}{2} &amp; \text{if } \hat{\beta}_j^{OLS} &lt; -\frac{\lambda}{2} \\ 0 &amp; \text{if } |\hat{\beta}_j^{OLS}| \le \frac{\lambda}{2} \end{cases} = \text{sign}\left(\hat{\beta}_j^{OLS}\right) \left( |\hat{\beta}_j^{OLS}| - \frac{\lambda}{2} \right)_+\]</span></li>
+<li>LASSO chooses betas to minimize: <span class="math display">\[\hat{\boldsymbol\beta}_\lambda^{L}=\arg\min_{\beta}\,(\mathbf{y}-\mathbf{X}\boldsymbol\beta)'(\mathbf{y}-\mathbf{X}\boldsymbol\beta)+\lambda\|\boldsymbol\beta\|_1\]</span></li>
+<li>The solution is : <span class="math display">\[\hat\beta_j^{L}(\lambda)=\begin{cases}\hat\beta_j^{OLS}-\lambda/2 &amp; \text{if } \hat\beta_j^{OLS}&gt;\lambda/2\\[4pt] \hat\beta_j^{OLS}+\lambda/2 &amp; \text{if } \hat\beta_j^{OLS}&lt;-\lambda/2\\[4pt] 0 &amp; \text{if } \big|\hat\beta_j^{OLS}\big|\le\lambda/2\end{cases}\]</span></li>
 </ul>
 </section>
 
 <section id="shrinkage-interpretation-under-special-case-3" class="title-slide slide level1 center">
 <h1>Shrinkage interpretation (under special case)</h1>
-<p>Now we can see how the nature of shrinkage differs fundamentally:</p>
 <ul>
-<li><strong>Ridge regression</strong>: shrinks OLS coefficients by the <strong>same proportion</strong> <span class="math inline">\(\frac{1}{1+\lambda}\)</span>.</li>
-<li><strong>LASSO</strong>: shrinks coefficients toward zero by a <strong>constant amount</strong> <span class="math inline">\(\lambda/2\)</span>. If the coefficient is smaller than <span class="math inline">\(\lambda/2\)</span> in absolute value, it is set <strong>exactly to zero</strong> — <strong>soft thresholding</strong>.</li>
-<li><strong>Best subset selection</strong>: leaves large coefficients unchanged and zeroes out small ones — <strong>hard thresholding</strong>: <span class="math display">\[\hat{\beta}_j^{BS} = \hat{\beta}_j^{OLS} \cdot I\left( |\hat{\beta}_j^{OLS}| &gt; \sqrt{\lambda} \right)\]</span></li>
-<li><strong>Non-orthonormal case</strong>: When <span class="math inline">\(X\)</span> is not orthogonal, the algebra is coupled across predictors, but the geometric intuition remains: shrinkage occurs in roughly the same manner.</li>
+<li>Now you can see how the nature of shrinkage differs between Ridge and LASSO.</li>
+<li>Ridge regression shrinks OLS coefficients by the same proportion.</li>
+<li>LASSO shrinks coefficients to zero by a constant amount <span class="math inline">\(\lambda/2\)</span>. If the coefficient is smaller than that in absolute value, it is set to zero – soft thresholding. (Best subset uses hard thresholding.)</li>
+<li>NOT under special case: When X is not orthonormal, the story changes of course, but the intuition of this special case remains: shrinkage occurs in roughly the same manner.</li>
 </ul>
+</section>
+
+<section id="interactive-demo-soft-vs.-hard-thresholding" class="title-slide slide level1 companion-only center">
+<h1>Interactive demo: soft vs.&nbsp;hard thresholding</h1>
+<p><strong>Try:</strong> (1) raise <span class="math inline">\(\lambda\)</span> and watch which coefficients hit exactly 0 under each rule; (2) compare the gap between the grey 45° line and each coloured curve — proportional (Ridge) vs.&nbsp;constant (LASSO); (3) find a <span class="math inline">\(\lambda\)</span> where LASSO and best subset keep the same variables but report different sizes.</p>
+<iframe src="threshold-demo.html" width="100%" height="470" style="border:1px solid #ddd; border-radius:6px">
+</iframe>
 </section>
 
 <section id="shrinkage-and-selection" class="title-slide slide level1 center">
 <h1>Shrinkage and selection</h1>
-<p>Why does LASSO set coefficients to zero while Ridge does not?</p>
 
-<img data-src="media/image8.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><div class="footer-note">
+<img data-src="media/image8.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="footer-note">
 <p>Source: James et al.&nbsp;(2014), ISLR, Springer</p>
 </div>
 </section>
 
 <section id="shrinkage-and-selection-1" class="title-slide slide level1 center">
 <h1>Shrinkage and selection</h1>
-<p>Comparing the thresholding functions for the orthogonal case:</p>
-<p><span class="math display">\[\hat{\beta} \text{ as a function of } \hat{\beta}^{OLS}\]</span></p>
 
-<img data-src="media/image10.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"><div class="footer-note">
-<p>Source: Figure 3.11 in Elements of Statistical Learning (Hastie et al., 2009)</p>
+<img data-src="media/image10.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"><p><em>Note: These diagrams are for the special case <span class="math inline">\(X'X=I_P\)</span></em></p>
+<div class="footer-note">
+<p>Source: Figure 3.11 in Element of Statistical Learning</p>
 </div>
 </section>
 
 <section id="shrinkage-and-selection-2" class="title-slide slide level1 center">
 <h1>Shrinkage and selection</h1>
-<ul>
-<li>The RSS contours are ellipses centered at the unconstrained OLS estimate <span class="math inline">\(\hat{\beta}^{OLS}\)</span>.</li>
-<li>The constraint region for LASSO is a <strong>diamond</strong> (rhombus, with corners on the axes).</li>
-<li>The constraint region for Ridge is a <strong>circle/disk</strong> (smooth everywhere).</li>
-<li>Because the diamond has <strong>sharp corners</strong> lying on the coordinate axes, the elliptical contours frequently make first contact at a corner — where one or more coordinates equal zero!</li>
-</ul>
 
-<img data-src="media/image11.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><div class="footer-note">
+<img data-src="media/image11.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"><div class="footer-note">
 <p>Source: James et al.&nbsp;(2014), ISLR, Springer</p>
 </div>
 </section>
 
 <section id="biasvariance-tradeoff" class="title-slide slide level1 center">
 <h1>Bias/variance tradeoff</h1>
-<ul>
-<li>As <span class="math inline">\(\lambda\)</span> increases (budget <span class="math inline">\(s\)</span> decreases), shrinkage increases: <strong>bias increases</strong> while <strong>variance decreases</strong>.</li>
-<li>The optimal <span class="math inline">\(\lambda\)</span> minimizes test MSE, balancing bias squared and variance.</li>
-</ul>
 
-<img data-src="media/image12.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><div class="footer-note">
+<img data-src="media/image12.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"><div class="footer-note">
 <p>Source: James et al.&nbsp;(2014), ISLR, Springer</p>
 </div>
 </section>
 
-<section id="lasso-vs.-ridge" class="title-slide slide level1 center scrollable">
+<section id="lasso-vs.-ridge" class="title-slide slide level1 center">
 <h1>LASSO vs.&nbsp;Ridge</h1>
-<p>Though often effective in practice, LASSO has some notable shortcomings:</p>
-<ol type="1">
-<li><strong>Collinear predictors</strong>: If there is a group of highly correlated variables, LASSO tends to select <strong>one of them arbitrarily</strong> and zero out the rest, even when all have substantive meaning.</li>
-<li><strong>Saturating when <span class="math inline">\(p &gt; n\)</span></strong>: In high-dimensional settings where <span class="math inline">\(p &gt; n\)</span>, LASSO can select at most <span class="math inline">\(n\)</span> variables before it saturates.</li>
-<li><strong>Empirical performance under correlation</strong>: When variables in <span class="math inline">\(X\)</span> are moderately or highly correlated, Ridge often outperforms LASSO in out-of-sample prediction MSE.</li>
-</ol>
-<blockquote>
-<p><strong>Key question</strong>: Can we find a compromise between Ridge and LASSO that yields both grouping and sparsity?</p>
-</blockquote>
+<ul>
+<li>Though often effective in practice, LASSO has some shortcomings.</li>
+<li>If there is a group of highly correlated variables (and the group structure is unknown!), LASSO tends to select one of them, while it would make sense to have all in the model.</li>
+<li>LASSO selects at most <span class="math inline">\(N\)</span> variables before it saturates in the <span class="math inline">\(P &gt; N\)</span> case.</li>
+<li>When variables in <span class="math inline">\(\mathbf{X}\)</span> are correlated, Ridge tends to outperform LASSO empirically.</li>
+<li>It would seem a compromise between Ridge and LASSO could be interesting.</li>
+</ul>
 </section>
 
 <section id="lasso-ridge-compromise" class="title-slide slide level1 center">
 <h1>LASSO – Ridge compromise ?</h1>
-<p>One theoretical way to achieve such a compromise is to consider the <strong><span class="math inline">\(L_q\)</span> nesting penalty</strong>:</p>
-<p><span class="math display">\[\min_{\beta} \sum_{i=1}^n \left( y_i - \sum_{j=1}^p \beta_j x_{ij} \right)^2 \quad \text{subject to} \quad \sum_{j=1}^p |\beta_j|^q \le s\]</span></p>
+<ul>
+<li>One way to achieve such compromise is to consider the nesting penalty representation:</li>
+</ul>
+<p><span class="math display">\[\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}|\beta_j|^{q}\]</span></p>
 
 <img data-src="media/image14.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"><div class="footer-note">
-<p>Source: Hastie et al.&nbsp;(2009): Elements of Statistical Learning, Springer</p>
+<p>Source: Hastie et al.&nbsp;(2009): <em>Elements of Statistical Learning</em>, Springer</p>
 </div>
 </section>
 
 <section id="lasso-ridge-compromise-1" class="title-slide slide level1 center">
 <h1>LASSO – Ridge compromise ?</h1>
-<p>Nesting penalty with <span class="math inline">\(q \in [1, 2]\)</span>:</p>
-<p><span class="math display">\[\sum_{j=1}^p |\beta_j|^q \le s\]</span></p>
 <ul>
-<li>The values of <span class="math inline">\(q\)</span> between <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span> suggest a compromise between LASSO (<span class="math inline">\(q=1\)</span>) and Ridge (<span class="math inline">\(q=2\)</span>).</li>
-<li><strong>However, for <span class="math inline">\(q &gt; 1\)</span></strong>, the function <span class="math inline">\(|\beta_j|^q\)</span> is strictly differentiable at zero: the constraint boundary has <strong>rounded corners</strong>, so the variable-selection property is lost!</li>
-<li>For <span class="math inline">\(q &lt; 1\)</span>, the constraint region is non-convex, making global optimization computationally intractable.</li>
-<li>In practice, this method does not work well. We need a better alternative.</li>
+<li>Nesting penalty: <span class="math display">\[\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}|\beta_j|^{q}\]</span></li>
+<li>The values of <span class="math inline">\(q\)</span> between <span class="math inline">\(1\)</span> and 2 suggest compromise between LASSO and Ridge (why?).</li>
+<li>For <span class="math inline">\(q &gt; 1\)</span> the function is differentiable at zero, so the selection ability of the LASSO is lost.</li>
+<li>In practice, this method does not work so well.</li>
+<li>Computation is more costly for general q than Ridge and LASSO. Thus, we can look at a better alternative.</li>
 </ul>
 </section>
 
 <section id="the-elastic-net" class="title-slide slide level1 center">
 <h1>The Elastic Net</h1>
-<p>Motivated by these shortcomings, <strong>Zou and Hastie (2005)</strong> proposed the <strong>Elastic Net</strong>:</p>
-<p><span class="math display">\[\min_{\beta_0, \beta} \left\{ \sum_{i=1}^n \left( y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij} \right)^2 + \lambda_1 \sum_{j=1}^p |\beta_j| + \lambda_2 \sum_{j=1}^p \beta_j^2 \right\}\]</span></p>
-<p>Equivalent parametrization (used in <code>glmnet</code>):</p>
-<p><span class="math display">\[\min_{\beta_0, \beta} \left\{ \text{RSS} + \lambda \sum_{j=1}^p \left( \alpha |\beta_j| + \frac{1-\alpha}{2} \beta_j^2 \right) \right\}\]</span></p>
 <ul>
-<li><span class="math inline">\(\alpha = 1 \implies \text{LASSO}\)</span></li>
-<li><span class="math inline">\(\alpha = 0 \implies \text{Ridge}\)</span></li>
-<li><span class="math inline">\(0 &lt; \alpha &lt; 1 \implies \text{Elastic Net}\)</span></li>
+<li>Motivated by the above shortcomings, Zou and Hastie (2005) proposed the approach they termed an “elastic net”:</li>
 </ul>
+<p><span class="math display">\[\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}\Big(\alpha\beta_j^2+(1-\alpha)\big|\beta_j\big|\Big)\]</span></p>
+
+<img data-src="media/image18.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p>NOTE: <span class="math inline">\(0&lt;\alpha&lt;1\)</span></p>
+<div class="footer-note">
+<p>Source: Hastie et al.&nbsp;(2009): <em>Elements of Statistical Learning</em>, Springer</p>
+</div>
 </section>
 
 <section id="the-elastic-net-1" class="title-slide slide level1 center">
 <h1>The Elastic Net</h1>
 <ul>
-<li>The Elastic Net <strong>selects variables like LASSO</strong> and <strong>shrinks coefficients of correlated predictors together like Ridge</strong> (<strong>grouping effect</strong>).</li>
-<li>It retains <strong>sharp corners</strong> at the axes (allowing exact zeros) while having <strong>strictly convex contours</strong> between axes:
-<ul>
-<li>Makes it harder to push <span class="math inline">\(\beta\)</span> to zero when predictors are correlated, grouping them together.</li>
-</ul></li>
-<li>Overcomes the <span class="math inline">\(p &gt; n\)</span> limitation: can select more than <span class="math inline">\(n\)</span> variables.</li>
-<li>Selection of tuning parameters <span class="math inline">\((\lambda, \alpha)\)</span> can be done jointly by <span class="math inline">\(K\)</span>-fold cross-validation.</li>
+<li>Motivated by the above shortcomings, Zou and Hastie (2005) proposed the approach they termed an “elastic net”: <span class="math display">\[\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}\Big(\alpha\beta_j^2+(1-\alpha)\big|\beta_j\big|\Big)\]</span></li>
+<li>The elastic net selects variables like the LASSO and shrinks the coefficients together the coefficients of correlated predictors like ridge: Make it harder to push <span class="math inline">\(\beta\)</span> to zero, while retaining sharp corners (thus some coefficients can be shrunk to zero)</li>
+<li>It has similar computational cost as that of LASSO.</li>
+<li>Selection of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\lambda\)</span> can be done jointly by K-fold CV.</li>
 </ul>
 </section>
 
 <section id="the-elastic-net-illustration" class="title-slide slide level1 center">
 <h1>The Elastic Net Illustration</h1>
-<p>The Elastic Net constraint contour combines the singularities of <span class="math inline">\(\ell_1\)</span> with the curvature of <span class="math inline">\(\ell_2\)</span>:</p>
 
-<img data-src="media/image20.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="footer-note">
-<p>Source: Hastie et al.&nbsp;(2015): <em>Statistical Learning with Sparsity: The Lasso and Generalizations</em>, CRC Press</p>
+<img data-src="media/image20.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="footer-note">
+<p>Source: Hastie et al.&nbsp;(2015): “Statistical Learning with Sparsity: The Lasso and Generalizations”, CRC Press</p>
 </div>
+</section>
+
+<section id="interactive-demo-why-corners-give-zeros" class="title-slide slide level1 companion-only center">
+<h1>Interactive demo: why corners give zeros</h1>
+<p><strong>Try:</strong> (1) pick <strong>LASSO</strong> and drag the OLS point — when does the solution land on an axis (a coefficient exactly 0)? (2) switch to <strong>Ridge</strong> with the same point; (3) choose <strong><span class="math inline">\(L_q\)</span></strong> and move <span class="math inline">\(q\)</span> from 1 to 1.2 — do the zeros survive? (4) choose <strong>Elastic Net</strong> — corners stay for any <span class="math inline">\(\alpha&lt;1\)</span>.</p>
+<iframe src="geometry-demo.html" width="100%" height="500" style="border:1px solid #ddd; border-radius:6px">
+</iframe>
 </section>
 
 <section id="choice-of-lambda-lasso-cv" class="title-slide slide level1 center">
 <h1>Choice of <span class="math inline">\(\lambda\)</span> (LASSO): CV</h1>
-<p>Choosing <span class="math inline">\(\lambda\)</span> is the critical decision that determines model performance:</p>
 <ul>
-<li>Most popular approach: <strong><span class="math inline">\(K\)</span>-fold Cross-Validation</strong> (typically 5-fold or 10-fold) over a grid of <span class="math inline">\(\lambda\)</span> values.</li>
-<li><strong>Note</strong>: We cannot use the LOOCV hat-matrix shortcut formula since LASSO has no closed-form linear solution.</li>
-<li>Results can be sensitive across random fold splits:
-<ul>
-<li>Prudent to use 10 folds, or repeat CV across multiple random seeds and take the median / modal <span class="math inline">\(\lambda\)</span>.</li>
-</ul></li>
-<li><strong>Theory</strong>: Chernozhukov, Chetverikov, and Liao (2020) establish that CV estimation error converges to zero under regularity conditions in the Normal model.</li>
+<li>Again, a critical choice that determines performance.</li>
+<li>In statistical literature, most popular approach is cross-validation: typically K-fold on a grid for <span class="math inline">\(\lambda\)</span>.</li>
+<li>Note: cannot do the LOOCV computational “trick” since no closed form solution – makes it computationally infeasible for big problem.</li>
+<li>Commonly found that results can be sensitive across multiple runs – prudent to increase K to mitigate this variation. Also, can try CV many times and choose value of <span class="math inline">\(\lambda\)</span> that occurs the most)</li>
+<li>Chernozhukov, Chetverikov and Liao (2020) provide theoretical justification: estimation error of CV converges to zero under some conditions in the Normal model. (just know that LASSO is theoretically justified)</li>
 </ul>
 </section>
 
-<section id="choice-of-lambda-the-1-se-rule-for-cv" class="title-slide slide level1 center scrollable">
+<section id="choice-of-lambda-the-1-se-rule-for-cv" class="title-slide slide level1 center">
 <h1>Choice of <span class="math inline">\(\lambda\)</span>: The “1 SE rule” for CV</h1>
-<p>When performing CV in penalized regression, practitioners frequently use the <strong>one standard error rule</strong>:</p>
-<ol type="1">
-<li>Calculate the standard error of the estimated CV MSE across folds for each <span class="math inline">\(\lambda\)</span>: <span class="math display">\[\text{SE}(\text{CV}(\lambda)) = \frac{\text{SD}(\text{MSE}_k(\lambda))}{\sqrt{K}}\]</span></li>
-<li>Identify <span class="math inline">\(\lambda_{\min}\)</span> which achieves the minimum cross-validated MSE.</li>
-<li>Select <strong><span class="math inline">\(\lambda_{1\text{se}}\)</span></strong>, the largest <span class="math inline">\(\lambda\)</span> (most regularized, smallest model) whose CV error is within <span class="math inline">\(1\text{SE}\)</span> of <span class="math inline">\(\lambda_{\min}\)</span>: <span class="math display">\[\lambda_{1\text{se}} = \max \{ \lambda : \text{CV}(\lambda) \le \text{CV}(\lambda_{\min}) + \text{SE}(\text{CV}(\lambda_{\min})) \}\]</span></li>
-</ol>
-<blockquote>
-<p><strong>Important Conceptual Note</strong>: The standard error of the estimated MSE is <strong>not</strong> the standard deviation of <span class="math inline">\(\lambda\)</span>. There is no sampling distribution of <span class="math inline">\(\lambda\)</span> because <span class="math inline">\(\lambda\)</span> is a deterministic tuning choice, not a random variable.</p>
-<p><strong>Rationale</strong>: Models within <span class="math inline">\(1\text{SE}\)</span> are essentially indistinguishable in predictive performance; parsimony dictates choosing the simpler, sparser model.</p>
-</blockquote>
+<ul>
+<li>When doing CV (in a penalized regression setting), practitioners often choose <span class="math inline">\(\lambda\)</span> using the so-called “one standard error rule”.</li>
+<li>The idea is to calculate the standard error of the estimated MSE for each <span class="math inline">\(\lambda\)</span> on the grid, and then select the largest <span class="math inline">\(\lambda\)</span> (i.e., the smallest model) for which the estimated CV MSE is within one standard error of the minimum-MSE <span class="math inline">\(\lambda\)</span> choice.</li>
+<li>Please note that standard error of the estimated MSE is not standard deviation of <span class="math inline">\(\lambda\)</span>. (There is no ____________ of <span class="math inline">\(\lambda\)</span>)</li>
+<li>The logic here is that models within 1SE bound are “equally good” more or less, so we want to choose the simplest one.</li>
+</ul>
 </section>
 
 <section id="choice-of-lambda-plug-in-rules" class="title-slide slide level1 center">
 <h1>Choice of <span class="math inline">\(\lambda\)</span>: plug-in rules</h1>
-<p>Under structural assumptions, theoretically optimal plug-in rules for <span class="math inline">\(\lambda\)</span> can be derived analytically (<strong>Belloni, Chernozhukov, and Hansen 2010, 2012</strong>):</p>
 <ul>
-<li>Baseline case (homoskedastic errors, uncorrelated <span class="math inline">\(X\)</span>’s): <span class="math display">\[\lambda = 2 c \sigma \sqrt{2n \log(2p / \gamma)}\]</span> where <span class="math inline">\(c &gt; 1\)</span> (typically <span class="math inline">\(c = 1.1\)</span>), <span class="math inline">\(\sigma\)</span> is error standard deviation, and <span class="math inline">\(1 - \gamma\)</span> is a confidence level.</li>
-<li>Extensions exist for correlated regressors and heteroskedastic / clustered errors.</li>
-<li>Implemented in R package <code>hdm</code> via the function <code>rlasso()</code>.</li>
+<li>Under some assumptions, theoretically optimal rules (for different cases) for the tuning parameter choice can be derived (Belloni, Chernozhukov and Hansen (2010, 2012)).</li>
+<li>E.g., for the <u><strong>baseline case</strong></u> assuming homoscedasticity and uncorrelated X’s, we would use: <span class="math display">\[\lambda = 2c\sqrt{n}\,\hat\sigma\,\Phi^{-1}\big(1-\gamma/(2p)\big)\]</span></li>
+<li>There are versions of these for the correlated regressors case, and for heteroscedasticity.</li>
+<li>Implemented in the <strong>hdm()</strong> package under ‘rlasso’.</li>
 </ul>
 </section>
 
-<section id="statistical-properties" class="title-slide slide level1 center scrollable">
+<section id="statistical-properties" class="title-slide slide level1 center">
 <h1>Statistical properties</h1>
-<p>Asymptotic properties are derived allowing for high dimensions (<span class="math inline">\(p \gg n\)</span>):</p>
 <ul>
-<li><strong>Sparsity assumption</strong>: The true model has <span class="math inline">\(s\)</span> non-zero coefficients, where <span class="math inline">\(s \ll n\)</span>.</li>
-<li><strong>Model selection consistency</strong>: Under sparsity and the <em>irrepresentable condition</em>, LASSO selects the true active set asymptotically.</li>
-<li><strong>Shrinkage bias</strong>: Estimated coefficients are systematically biased toward zero.</li>
-<li>Methods to mitigate shrinkage bias:
-<ol type="1">
-<li><strong>Post-LASSO least squares</strong> (Belloni &amp; Chernozhukov, 2013)</li>
-<li><strong>Adaptive LASSO</strong> (Zou, 2006 — weights inversely proportional to initial estimates)</li>
-<li><strong>SCAD / MCP</strong> (Fan &amp; Li, 2001; Zhang, 2010 — non-convex folded concave penalties)</li>
-</ol></li>
+<li>Asymptotic properties are derived allowing for P &gt;&gt; N.</li>
+<li>Sparsity is the key assumption: true model has S nonzero coefficients.</li>
+<li>If sparse, under some regularity conditions, LASSO performs consistent model selection.</li>
+<li>The coefficients are biased, however.</li>
+<li>There are ways to mitigate this bias: 1) post-LASSO least squares; 2) Adaptive LASSO; 3) Smoothly Clipped Absolute Deviations (SCAD).</li>
 </ul>
 </section>
 
 <section id="post-lasso-estimation" class="title-slide slide level1 center">
 <h1>Post-LASSO estimation</h1>
-<p><strong>Belloni and Chernozhukov (2013)</strong> propose an intuitive and computationally simple fix:</p>
-<blockquote>
-<p>Undo the shrinkage bias by applying unpenalized OLS using <strong>only the variables selected by LASSO</strong>.</p>
-</blockquote>
 <ul>
-<li>Let <span class="math inline">\(\hat{S} = \{ j : \hat{\beta}_j^L \ne 0 \}\)</span> be the active set.</li>
-<li>Estimate by OLS: <span class="math display">\[\hat{\beta}_{\hat{S}}^{\text{post-LASSO}} = (X_{\hat{S}}^T X_{\hat{S}})^{-1} X_{\hat{S}}^T Y\]</span></li>
-<li>Post-LASSO removes attenuation bias on selected variables while preserving sparsity.</li>
-<li>Theoretical convergence rates are established when combined with plug-in penalties (<code>rlasso(..., post = TRUE)</code>).</li>
+<li>Belloni and Chernozhukov (2013) provide a very intuitive (and computationally simple) idea: undo the shrinkage bias by applying the unpenalized estimator (OLS) using only the variables selected by LASSO.</li>
+<li>This is called post-LASSO estimation.</li>
+<li>Results suggest it works at least as good as LASSO and sometimes much better.</li>
+<li>Works well with theoretically motivated plug-in penalty (<span class="math inline">\(c = 1.1\)</span> is suggested; for what is <span class="math inline">\(c\)</span>, see the formula in slide 24).</li>
+<li>Or we can choose <span class="math inline">\(\lambda\)</span> by CV even though not justified theoretically.</li>
 </ul>
 </section>
 
 <section id="note-on-sparsity" class="title-slide slide level1 center">
 <h1>Note on Sparsity</h1>
 <ul>
-<li><strong>Sparsity is a mathematical convenience</strong>:
-<ul>
-<li>Key assumption for justifying high-dimensional asymptotic theory (<span class="math inline">\(p \gg n\)</span>).</li>
-<li>However, in real-world economic applications, exact sparsity may not hold.</li>
-</ul></li>
-<li><strong>Dense vs.&nbsp;Sparse models</strong>:
-<ul>
-<li>In practice, many predictors might have small, non-zero causal or predictive effects rather than strictly zero effects.</li>
-<li>When true signals are dense and small, Ridge or model-averaging methods often outperform LASSO.</li>
-</ul></li>
-<li>Always question whether imposing sparsity is substantively warranted for your economic problem.</li>
+<li>Very fashionable assumption and way of thinking.</li>
+<li>Key assumption for justifying theory, but not really based on reality.</li>
+<li>Frequently hear people say “imposing sparsity” in this literature: this can be too simplistic an assumption.</li>
+<li>In practice, this implies that few coefficients are big, the remainder is zero or small. May not make much sense in some settings.</li>
+<li>Many coefficients could be nonzero AND small – a challenge for LASSO-type theory.</li>
 </ul>
 </section>
 
 <section id="note-on-screening-of-regressors" class="title-slide slide level1 center">
 <h1>Note on screening of regressors</h1>
-<p>When <span class="math inline">\(p\)</span> is extremely large, pre-screening before LASSO helps computational tractability:</p>
 <ul>
-<li><strong>Sure Independence Screening (SIS)</strong> (<strong>Fan and Lv 2008</strong>):
-<ul>
-<li>Rank all <span class="math inline">\(p\)</span> predictors by their marginal correlation with <span class="math inline">\(Y\)</span>: <span class="math display">\[\omega_j = |X_j^T Y|\]</span></li>
-<li>Retain only the top <span class="math inline">\(d\)</span> most correlated variables, where: <span class="math display">\[d = \left\lfloor \frac{n}{\log n} \right\rfloor \quad \text{or} \quad d = n - 1\]</span></li>
-</ul></li>
-<li>Under regularity conditions, SIS enjoys the <strong>sure screening property</strong>: with probability approaching 1, the retained subset contains the true active variables.</li>
+<li>Though LASSO can handle high P, it may not be desirable to consider too many redundant regressors. If so, we can do some pre-screening:</li>
+<li>Fan and Lu (2008) propose a sure independence screening (SIS) procedure: rank variables by marginal correlations and only consider d most highly correlated to Y variables.</li>
+<li>Recommend <span class="math inline">\(d = N - 1\)</span> or <span class="math inline">\(d = N/\log(N)\)</span>.</li>
+<li>Under strong conditions, can be proven to work theoretically (i.e., doesn’t discard useful variables).</li>
+<li>Simple idea that can make life much easier in large problems.</li>
 </ul>
 </section>
 
 <section id="note-on-regressor-transformation" class="title-slide slide level1 center">
 <h1>Note on regressor transformation</h1>
 <ul>
-<li>Much theoretical insight for LASSO is obtained under orthogonal or near-orthogonal regressors.</li>
-<li>Whenever possible, consider <strong>context-driven transformations</strong> that reduce collinearity:
-<ul>
-<li>E.g., interest rates across maturities are collinear in levels; term spreads (<span class="math inline">\(R_{10\text{yr}} - R_{3\text{mo}}\)</span>) are much less correlated.</li>
-<li>Log-differences, ratios, or orthogonal components based on domain knowledge.</li>
-</ul></li>
-<li>Helps LASSO avoid arbitrary selection among correlated features.</li>
+<li>Much theoretical insights for LASSO are obtained for orthogonal regressors.</li>
+<li>Whenever possible, we could consider transformations of regressors that are closer to being orthogonal.</li>
+<li>E.g., interest rates are very correlated across maturities in levels, but interest rate spreads are much less so.</li>
+<li>This depends on the context and our domain knowledge.</li>
 </ul>
 </section>
 
-<section id="application-credit-data" class="title-slide slide level1 center">
-<h1>Application: Credit Data</h1>
-<p>Data from ISLR package on credit card balances (<span class="math inline">\(n=400\)</span> observations, 10 predictors):</p>
+<section id="application" class="title-slide slide level1 center">
+<h1>Application</h1>
+<ul>
+<li>Data from the ISLR package on credit card balances and 10 predictors, <span class="math inline">\(N = 400\)</span>.</li>
+</ul>
 <table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Predictor</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>Income</strong></td>
-<td style="text-align: left;">Income in <span class="math inline">\(\$1,000\)</span>s</td>
+<td style="text-align: left;">ID</td>
+<td style="text-align: left;">Identification</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Limit</strong></td>
-<td style="text-align: left;">Credit limit (<span class="math inline">\(\$\)</span>)</td>
+<td style="text-align: left;">Income</td>
+<td style="text-align: left;">Income in $10,000’s</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Rating</strong></td>
+<td style="text-align: left;">Limit</td>
+<td style="text-align: left;">Credit limit</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rating</td>
 <td style="text-align: left;">Credit rating</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Cards</strong></td>
+<tr class="odd">
+<td style="text-align: left;">Cards</td>
 <td style="text-align: left;">Number of credit cards</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Age</strong></td>
+<tr class="even">
+<td style="text-align: left;">Age</td>
 <td style="text-align: left;">Age in years</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Education</strong></td>
-<td style="text-align: left;">Years of education</td>
-</tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Gender</strong></td>
-<td style="text-align: left;">Factor: Male / Female</td>
+<td style="text-align: left;">Education</td>
+<td style="text-align: left;">Number of years of education</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Student</strong></td>
-<td style="text-align: left;">Factor: No / Yes</td>
+<td style="text-align: left;">Gender</td>
+<td style="text-align: left;">A factor with levels Male and Female</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Married</strong></td>
-<td style="text-align: left;">Factor: No / Yes</td>
+<td style="text-align: left;">Student</td>
+<td style="text-align: left;">A factor with levels No and Yes indicating whether the individual was a student</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Ethnicity</strong></td>
-<td style="text-align: left;">Factor: African American, Asian, Caucasian</td>
+<td style="text-align: left;">Married</td>
+<td style="text-align: left;">A factor with levels No and Yes indicating whether the individual was married</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Balance</strong></td>
-<td style="text-align: left;">Response: Average credit card balance (<span class="math inline">\(\$\)</span>)</td>
+<td style="text-align: left;">Ethnicity</td>
+<td style="text-align: left;">A factor with levels African American, Asian, and Caucasian indicating the individual’s ethnicity.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Balance</td>
+<td style="text-align: left;">Average credit card balance in $</td>
 </tr>
 </tbody>
 </table>
 </section>
 
 <section id="application-r-package-glmnet" class="title-slide slide level1 center">
-<h1>Application: R package <code>glmnet()</code></h1>
-<p>Fit LASSO and Elastic Net using <code>glmnet</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a><span class="fu">library</span>(glmnet)</span>
-<span id="cb1-2"><a href="" aria-label="2"></a></span>
-<span id="cb1-3"><a href="" aria-label="3"></a><span class="do">## Basic syntax</span></span>
-<span id="cb1-4"><a href="" aria-label="4"></a>fit <span class="ot">=</span> <span class="fu">glmnet</span>(x, y, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<h1>Application: R package glmnet()</h1>
 <ul>
-<li><code>alpha = 1</code> yields <strong>LASSO</strong>;</li>
-<li><code>alpha = 0</code> yields <strong>Ridge</strong>;</li>
-<li><code>0 &lt; alpha &lt; 1</code> yields <strong>Elastic Net</strong>.</li>
-<li>If <code>lambda</code> is not specified, <code>glmnet</code> computes an internal sequence from <span class="math inline">\(\lambda_{\max}\)</span> down.</li>
-<li>Cross-validation with <code>cv.glmnet(x, y, alpha = 1)</code> provides:
-<ul>
-<li><code>lambda.min</code>: <span class="math inline">\(\lambda\)</span> with minimum cross-validated error;</li>
-<li><code>lambda.1se</code>: largest <span class="math inline">\(\lambda\)</span> within 1 standard error of minimum.</li>
-</ul></li>
+<li>Fit LASSO regression using the <code>glmnet()</code> package.</li>
+<li>Basic syntax: <code>fit = glmnet(x, y, alpha = 1, lambda = grid)</code></li>
+<li><code>alpha=1</code> yields LASSO, while values between 0 and 1 correspond to the Elastic Net. <code>alpha = 0</code> yields the ridge case.</li>
+<li>If <code>lambda</code> not defined, <code>glmnet()</code> will produce its own grid. May not be optimal – need to experiment with user-defined grids!</li>
+<li><code>glmnet()</code> also delivers the “1SE rule” lambda automatically under “<code>lambda.1se</code>” (the best is under “<code>lambda.min</code>”).</li>
 </ul>
 </section>
 
 <section id="application-r-package-hdm" class="title-slide slide level1 center">
-<h1>Application: R package <code>hdm()</code></h1>
-<p>Fit theoretically guided LASSO using the <code>hdm</code> (High-Dimensional Metrics) package:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-label="1"></a><span class="fu">library</span>(hdm)</span>
-<span id="cb2-2"><a href="" aria-label="2"></a></span>
-<span id="cb2-3"><a href="" aria-label="3"></a><span class="do">## Fit plug-in LASSO with post-estimation</span></span>
-<span id="cb2-4"><a href="" aria-label="4"></a>fit <span class="ot">=</span> <span class="fu">rlasso</span>(Balance <span class="sc">~</span> ., <span class="at">data =</span> Credit_train, <span class="at">post =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<h1>Application: R package hdm()</h1>
 <ul>
-<li><code>post = TRUE</code> automatically performs <strong>post-LASSO OLS estimation</strong> on selected regressors.</li>
-<li><code>post = FALSE</code> delivers penalized plug-in estimates.</li>
-<li>Default penalty adjusts for heteroskedasticity and non-Gaussian errors.</li>
+<li>Fits LASSO using theoretical plug-in choices of <span class="math inline">\(\lambda\)</span> via the <code>rlasso()</code> function.</li>
+<li>Basic syntax: <code>fit = rlasso(Y~X, post=TRUE)</code></li>
+<li><code>post=TRUE</code> performs post-LASSO estimation. Set FALSE for the plug-in LASSO estimates.</li>
+<li>Multiple options for penalty choice etc. – see code for details. The default works well in many cases since it adjusts for heteroskedasticity (however, it assumes uncorrelated features).</li>
 </ul>
 </section>
 
 <section id="application-effect-of-lambda-on-coefficients" class="title-slide slide level1 center">
 <h1>Application: effect of <span class="math inline">\(\lambda\)</span> on coefficients</h1>
-<p>Coefficient paths showing variable selection as <span class="math inline">\(\lambda\)</span> increases:</p>
 <table class="caption-top" style="width:100%;">
 <colgroup>
 <col style="width: 10%">
@@ -697,19 +562,19 @@ Vu Thanh Hai
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Predictor</th>
-<th style="text-align: center;"><span class="math inline">\(\lambda=705\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(\lambda=174.75\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(\lambda=100\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(\lambda=57.22\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(\lambda=43.29\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(\lambda=0.658\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(\lambda=0\)</span> (OLS)</th>
+<th style="text-align: left;"></th>
+<th style="text-align: center;"><span class="math inline">\(\lambda\)</span> = 705</th>
+<th style="text-align: center;"><span class="math inline">\(\lambda\)</span> = 174.75</th>
+<th style="text-align: center;"><span class="math inline">\(\lambda\)</span> = 100</th>
+<th style="text-align: center;"><span class="math inline">\(\lambda\)</span> = 57.22</th>
+<th style="text-align: center;"><span class="math inline">\(\lambda\)</span> = 43.29</th>
+<th style="text-align: center;"><span class="math inline">\(\lambda\)</span> = 0.658</th>
+<th style="text-align: center;"><span class="math inline">\(\lambda\)</span> = 0</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>Income</strong></td>
+<td style="text-align: left;">Income</td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
@@ -719,7 +584,7 @@ Vu Thanh Hai
 <td style="text-align: center;">-7.992</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Limit</strong></td>
+<td style="text-align: left;">Limit</td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0.0003</td>
@@ -729,7 +594,7 @@ Vu Thanh Hai
 <td style="text-align: center;">0.185</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Rating</strong></td>
+<td style="text-align: left;">Rating</td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">1.423</td>
 <td style="text-align: center;">1.899</td>
@@ -739,124 +604,108 @@ Vu Thanh Hai
 <td style="text-align: center;">1.264</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Student</strong></td>
+<td style="text-align: left;">Student</td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
-<td style="text-align: center;">87.990</td>
+<td style="text-align: center;">87.99</td>
 <td style="text-align: center;">235.607</td>
 <td style="text-align: center;">281.008</td>
 <td style="text-align: center;">423.143</td>
 <td style="text-align: center;">426.817</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong><span class="math inline">\(\|\beta\|_1\)</span></strong></td>
-<td style="text-align: center;"><strong>0</strong></td>
-<td style="text-align: center;"><strong>1.423</strong></td>
-<td style="text-align: center;"><strong>89.889</strong></td>
-<td style="text-align: center;"><strong>237.770</strong></td>
-<td style="text-align: center;"><strong>285.130</strong></td>
-<td style="text-align: center;"><strong>469.203</strong></td>
-<td style="text-align: center;"><strong>482.516</strong></td>
+<td style="text-align: left;"><span class="math inline">\(L_1\)</span>-norm</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.423</td>
+<td style="text-align: center;">89.889</td>
+<td style="text-align: center;">237.77</td>
+<td style="text-align: center;">285.13</td>
+<td style="text-align: center;">469.203</td>
+<td style="text-align: center;">482.516</td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li>At <span class="math inline">\(\lambda = 705\)</span>, all coefficients are zero.</li>
-<li>Rating enters first (<span class="math inline">\(\lambda \approx 174.75\)</span>), followed by Student and Limit, and finally Income.</li>
-</ul>
+<p><em>Note that these results are based on a random seed that is different from what we have in the codes provided. But they are very close.</em></p>
 </section>
 
 <section id="application-10-fold-cv-default" class="title-slide slide level1 center">
 <h1>Application: 10-fold CV (default)</h1>
-<p>Using default <code>cv.glmnet</code> grid:</p>
-<ul>
-<li>Selected <span class="math inline">\(\lambda_{\min} = 1.988\)</span>.</li>
-<li>Shrinks 4 predictors to exact zero, retaining 7 variables.</li>
-</ul>
 
-<img data-src="media/image30.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+<img data-src="media/image30.png" class="quarto-figure quarto-figure-center r-stretch" style="width:62.0%"><p>Automatically chooses <span class="math inline">\(\lambda\)</span> = 1.988</p>
+</section>
 
 <section id="application-10-fold-cv-user-grid" class="title-slide slide level1 center">
 <h1>Application: 10-fold CV (user grid)</h1>
-<p>Using refined user-defined grid:</p>
-<ul>
-<li>Selected <span class="math inline">\(\lambda_{\min} = 2.03\)</span>.</li>
-<li>Identifies identical active set with calibrated penalty.</li>
-</ul>
 
-<img data-src="media/image31.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+<img data-src="media/image31.png" class="quarto-figure quarto-figure-center r-stretch" style="width:48.0%"><p>Chooses <span class="math inline">\(\lambda\)</span> = 2.03</p>
+</section>
 
 <section id="application-loocv" class="title-slide slide level1 center">
 <h1>Application: LOOCV</h1>
-<p>Leave-one-out cross-validation across the grid:</p>
-<ul>
-<li>Selected <span class="math inline">\(\lambda_{\min} = 1.217\)</span>.</li>
-<li>Yields slightly smaller shrinkage penalty than 10-fold CV.</li>
-</ul>
 
-<img data-src="media/image32.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+<img data-src="media/image32.png" class="quarto-figure quarto-figure-center r-stretch" style="width:48.0%"><p>Chooses <span class="math inline">\(\lambda\)</span> = 1.217</p>
+</section>
 
 <section id="application-test-set-mse" class="title-slide slide level1 center">
 <h1>Application: test set MSE</h1>
-<p>Comparison of out-of-sample prediction performance on Credit test set:</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th style="text-align: left;">Criterion</th>
-<th style="text-align: center;">Selected <span class="math inline">\(\lambda\)</span></th>
+<th style="text-align: center;">Criterion</th>
+<th style="text-align: center;"><span class="math inline">\(\lambda\)</span></th>
 <th style="text-align: center;">Test MSE</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>LASSO 10-fold CV (user grid)</strong></td>
-<td style="text-align: center;"><strong>2.030</strong></td>
-<td style="text-align: center;"><strong>10,041.70</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>LASSO LOOCV</strong></td>
-<td style="text-align: center;">1.217</td>
-<td style="text-align: center;">10,085.07</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Elastic Net (<span class="math inline">\(\alpha=0.5\)</span>)</strong></td>
+<td style="text-align: center;"><strong>Elastic Net (alpha=0.5)</strong></td>
 <td style="text-align: center;">2.009</td>
-<td style="text-align: center;">10,098.10</td>
+<td style="text-align: center;">10098.10</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Ridge 10-fold CV</strong></td>
-<td style="text-align: center;">1.500</td>
-<td style="text-align: center;">10,122.75</td>
+<td style="text-align: center;"><strong>Post-RLASSO</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">10281.33</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Ridge LOOCV</strong></td>
-<td style="text-align: center;">0.658</td>
-<td style="text-align: center;">10,145.75</td>
+<td style="text-align: center;"><strong>RLASSO (default)</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">10466.18</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>OLS (unpenalized)</strong></td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">10,147.65</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Post-LASSO 10-fold CV</strong></td>
+<td style="text-align: center;"><strong>Post-LASSO 10-fold CV</strong></td>
 <td style="text-align: center;">8.806</td>
-<td style="text-align: center;">10,155.77</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Best Subset</strong></td>
-<td style="text-align: center;">—</td>
-<td style="text-align: center;">10,155.78</td>
+<td style="text-align: center;">10155.77</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Post-RLASSO (<code>hdm</code>)</strong></td>
-<td style="text-align: center;">—</td>
-<td style="text-align: center;">10,281.33</td>
+<td style="text-align: center;"><strong>LASSO 10-fold CV (user)</strong></td>
+<td style="text-align: center;">2.03</td>
+<td style="text-align: center;"><strong>10041.70</strong></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>RLASSO default (<code>hdm</code>)</strong></td>
-<td style="text-align: center;">—</td>
-<td style="text-align: center;">10,466.18</td>
+<td style="text-align: center;"><strong>LASSO LOOCV</strong></td>
+<td style="text-align: center;">1.21</td>
+<td style="text-align: center;">10085.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>Ridge 10-fold CV (user)</strong></td>
+<td style="text-align: center;">1.5</td>
+<td style="text-align: center;">10122.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Ridge LOOCV</strong></td>
+<td style="text-align: center;">0.658</td>
+<td style="text-align: center;">10145.75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>OLS</strong></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">10147.65</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Best subset</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">10155.78</td>
 </tr>
 </tbody>
 </table>
@@ -864,69 +713,68 @@ Vu Thanh Hai
 
 <section id="application-final-model-coefficients" class="title-slide slide level1 center">
 <h1>Application: final model coefficients</h1>
-<p>Comparing final selected coefficients: <span class="math inline">\(\lambda = 2.03\)</span> vs.&nbsp;unpenalized OLS (<span class="math inline">\(\lambda = 0\)</span>):</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th style="text-align: left;">Predictor</th>
-<th style="text-align: center;">LASSO (<span class="math inline">\(\lambda = 2.03\)</span>)</th>
-<th style="text-align: center;">OLS (<span class="math inline">\(\lambda = 0\)</span>)</th>
+<th style="text-align: left;"></th>
+<th style="text-align: center;"><span class="math inline">\(\lambda\)</span> = 2.03</th>
+<th style="text-align: center;"><span class="math inline">\(\lambda\)</span> = 0 (OLS)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>Income</strong></td>
+<td style="text-align: left;">Income</td>
 <td style="text-align: center;">-7.726</td>
 <td style="text-align: center;">-7.992</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Limit</strong></td>
+<td style="text-align: left;">Limit</td>
 <td style="text-align: center;">0.190</td>
 <td style="text-align: center;">0.185</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Rating</strong></td>
+<td style="text-align: left;">Rating</td>
 <td style="text-align: center;">1.128</td>
 <td style="text-align: center;">1.264</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Student</strong></td>
+<td style="text-align: left;">Student</td>
 <td style="text-align: center;">419.798</td>
 <td style="text-align: center;">426.817</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Cards</strong></td>
+<td style="text-align: left;">Cards</td>
 <td style="text-align: center;">17.098</td>
 <td style="text-align: center;">17.789</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Age</strong></td>
+<td style="text-align: left;">Age</td>
 <td style="text-align: center;">-0.477</td>
 <td style="text-align: center;">-0.567</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Female</strong></td>
+<td style="text-align: left;">Education</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">-0.188</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Female</td>
 <td style="text-align: center;">-4.434</td>
 <td style="text-align: center;">-9.964</td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;">Married</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.367</td>
+</tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Asian</strong></td>
+<td style="text-align: left;">Asian</td>
 <td style="text-align: center;">8.160</td>
 <td style="text-align: center;">14.132</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Education</strong></td>
-<td style="text-align: center;"><strong>0</strong></td>
-<td style="text-align: center;">-0.188</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Married</strong></td>
-<td style="text-align: center;"><strong>0</strong></td>
-<td style="text-align: center;">1.367</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Caucasian</strong></td>
-<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: left;">Caucasian</td>
+<td style="text-align: center;">0</td>
 <td style="text-align: center;">2.251</td>
 </tr>
 </tbody>
@@ -936,11 +784,11 @@ Vu Thanh Hai
 <section id="concluding-remarks" class="title-slide slide level1 center">
 <h1>Concluding remarks</h1>
 <ul>
-<li><strong>LASSO fits even when <span class="math inline">\(p &gt; n\)</span></strong> (selects up to <span class="math inline">\(n\)</span> non-zero predictors).</li>
-<li><strong>Simultaneous variable selection and shrinkage</strong>: produces sparse, highly interpretable models.</li>
-<li><strong>Post-LASSO estimation</strong>: helps debias coefficients and mitigates attenuation bias.</li>
-<li><strong>Elastic Net</strong>: overcomes collinearity and grouping issues by combining <span class="math inline">\(\ell_1\)</span> and <span class="math inline">\(\ell_2\)</span> penalties.</li>
-<li><strong>Tuning parameter choice</strong>: critical in practice; use <span class="math inline">\(K\)</span>-fold cross-validation (with 1SE rule) or theoretically justified plug-in rules (<code>rlasso</code>).</li>
+<li>LASSO works even if P &gt;&gt; N (fits up to N predictors).</li>
+<li>LASSO performs simultaneous variable selection – potentially many coefficients are set to zero.</li>
+<li>Post-LASSO estimation helps debias coefficient and may result in better performance.</li>
+<li>Elastic Net provides one way to benefit from both Ridge and LASSO penalties.</li>
+<li>Requires choice of tuning parameter <span class="math inline">\(\lambda\)</span>.</li>
 </ul>
 
 </section>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Constraint geometry: why corners give zeros</title>
+<style>
+  :root { --navy:#1F3864; --green:#1F6F2E; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:10px 12px; font-family:"Source Sans Pro","Segoe UI",Arial,sans-serif; color:#1a1a1a; background:#fff; }
+  .wrap { display:flex; flex-wrap:wrap; gap:14px; align-items:flex-start; }
+  .side { flex:1 1 280px; min-width:260px; max-width:380px; font-size:15px; }
+  .plot { flex:1 1 360px; min-width:260px; max-width:480px; }
+  canvas { width:100%; aspect-ratio:1/1; display:block; border:1px solid #eee; border-radius:4px; touch-action:none; cursor:crosshair; }
+  .row { margin:7px 0; }
+  .row label { display:block; margin-bottom:2px; }
+  input[type=range] { width:100%; accent-color:var(--green); }
+  select { font-size:15px; padding:2px 4px; }
+  .val { font-weight:700; color:var(--navy); }
+  .out { margin-top:8px; padding:8px 10px; background:#f0f7f0; border-left:4px solid var(--green); font-size:14px; line-height:1.5; }
+  .msg { font-weight:700; }
+  .note { font-size:12.5px; color:#555; margin-top:6px; line-height:1.4; }
+  .hide { display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="side">
+    <div class="row">
+      <label>Penalty</label>
+      <select id="method">
+        <option value="lasso">LASSO: &Sigma;|&beta;<sub>j</sub>| &le; t</option>
+        <option value="ridge">Ridge: &Sigma;&beta;<sub>j</sub>&sup2; &le; t</option>
+        <option value="lq">L_q: &Sigma;|&beta;<sub>j</sub>|^q &le; t</option>
+        <option value="enet">Elastic Net: &Sigma;(&alpha;&beta;<sub>j</sub>&sup2; + (1&minus;&alpha;)|&beta;<sub>j</sub>|) &le; t</option>
+      </select>
+    </div>
+    <div class="row hide" id="qrow"><label>q = <span class="val" id="qv">1.20</span></label>
+      <input id="q" type="range" min="0.3" max="4" step="0.05" value="1.2"></div>
+    <div class="row hide" id="arow"><label>&alpha; = <span class="val" id="av">0.20</span> (weight on the squared term, as on slide 19)</label>
+      <input id="a" type="range" min="0" max="0.99" step="0.01" value="0.2"></div>
+    <div class="row"><label>budget t = <span class="val" id="tv">1.20</span></label>
+      <input id="t" type="range" min="0.2" max="3" step="0.05" value="1.2"></div>
+    <div class="row"><label>correlation between the two regressors &rho; = <span class="val" id="rv">0.00</span></label>
+      <input id="r" type="range" min="-0.8" max="0.8" step="0.05" value="0"></div>
+    <div class="out" id="out"></div>
+    <div class="note">Drag in the plot to move the OLS estimate. Grey ellipses are RSS contours; the dashed navy one is the lowest RSS that touches the green constraint region. &rho; = 0 is the orthonormal case of slides 8&ndash;10.</div>
+  </div>
+  <div class="plot"><canvas id="cv"></canvas></div>
+</div>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var cv = $('cv'), out = $('out');
+  var st = { b: [1.8, 0.6], method: 'lasso', q: 1.2, a: 0.2, t: 1.2, r: 0 };
+  var R = 3, N = 7200, AX = N / 4;
+
+  function radius(c, s) {
+    var ac = Math.abs(c), as = Math.abs(s), q;
+    if (st.method === 'enet') {
+      var al = st.a, B = (1 - al) * (ac + as);
+      if (al < 1e-9) return st.t / B;
+      return (-B + Math.sqrt(B * B + 4 * al * st.t)) / (2 * al);
+    }
+    q = st.method === 'lasso' ? 1 : st.method === 'ridge' ? 2 : st.q;
+    return Math.pow(st.t / (Math.pow(ac, q) + Math.pow(as, q)), 1 / q);
+  }
+  function penalty(p) {
+    var a1 = Math.abs(p[0]), a2 = Math.abs(p[1]), q;
+    if (st.method === 'enet') return st.a * (p[0] * p[0] + p[1] * p[1]) + (1 - st.a) * (a1 + a2);
+    q = st.method === 'lasso' ? 1 : st.method === 'ridge' ? 2 : st.q;
+    return Math.pow(a1, q) + Math.pow(a2, q);
+  }
+  function rss(p) {
+    var d1 = p[0] - st.b[0], d2 = p[1] - st.b[1];
+    return d1 * d1 + 2 * st.r * d1 * d2 + d2 * d2;
+  }
+  function bpt(th) {
+    var c = Math.cos(th), s = Math.sin(th), rr = radius(c, s);
+    var p = [rr * c, rr * s];
+    var k = Math.round(th / (Math.PI / 2));
+    if (Math.abs(th - k * Math.PI / 2) < 1e-12) { if (k % 2 === 0) p[1] = 0; else p[0] = 0; }
+    return p;
+  }
+
+  function solve() {
+    if (penalty(st.b) <= st.t) return { p: st.b.slice(), binding: false, corner: false };
+    var best = -1, bv = Infinity, i, v;
+    for (i = 0; i < N; i++) { v = rss(bpt(2 * Math.PI * i / N)); if (v < bv) { bv = v; best = i; } }
+    if (best % AX === 0) return { p: bpt(2 * Math.PI * best / N), binding: true, corner: true };
+    var lo = 2 * Math.PI * (best - 1) / N, hi = 2 * Math.PI * (best + 1) / N, g = (Math.sqrt(5) - 1) / 2;
+    var x1 = hi - g * (hi - lo), x2 = lo + g * (hi - lo), f1 = rss(bpt(x1)), f2 = rss(bpt(x2));
+    for (i = 0; i < 60; i++) {
+      if (f1 < f2) { hi = x2; x2 = x1; f2 = f1; x1 = hi - g * (hi - lo); f1 = rss(bpt(x1)); }
+      else { lo = x1; x1 = x2; f1 = f2; x2 = lo + g * (hi - lo); f2 = rss(bpt(x2)); }
+    }
+    return { p: bpt((lo + hi) / 2), binding: true, corner: false };
+  }
+
+  function draw() {
+    var dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight || w;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    var ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var pad = 22, X = function (x) { return pad + (x + R) / (2 * R) * (w - 2 * pad); },
+        Y = function (y) { return h - pad - (y + R) / (2 * R) * (h - 2 * pad); };
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = '#eee'; ctx.lineWidth = 1;
+    for (var g = -R; g <= R; g++) {
+      ctx.beginPath(); ctx.moveTo(X(g), Y(-R)); ctx.lineTo(X(g), Y(R)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(X(-R), Y(g)); ctx.lineTo(X(R), Y(g)); ctx.stroke();
+    }
+    ctx.strokeStyle = '#333'; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(X(-R), Y(0)); ctx.lineTo(X(R), Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0), Y(-R)); ctx.lineTo(X(0), Y(R)); ctx.stroke();
+    ctx.fillStyle = '#444'; ctx.font = '13px sans-serif';
+    ctx.fillText('\u03b2\u2081', X(R) - 18, Y(0) - 6); ctx.fillText('\u03b2\u2082', X(0) + 6, Y(R) + 14);
+
+    ctx.beginPath();
+    for (var i = 0; i <= 1440; i++) { var p = bpt(2 * Math.PI * i / 1440); if (i === 0) ctx.moveTo(X(p[0]), Y(p[1])); else ctx.lineTo(X(p[0]), Y(p[1])); }
+    ctx.closePath(); ctx.fillStyle = 'rgba(31,111,46,0.16)'; ctx.fill();
+    ctx.strokeStyle = '#1F6F2E'; ctx.lineWidth = 2; ctx.stroke();
+
+    var r = st.r, l1 = 1 + r, l2 = 1 - r, s2 = Math.SQRT1_2;
+    function ellipse(c, col, wd, dash) {
+      ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.setLineDash(dash || []); ctx.beginPath();
+      var a = Math.sqrt(c / l1), bb = Math.sqrt(c / l2);
+      for (var k = 0; k <= 240; k++) {
+        var ph = 2 * Math.PI * k / 240, u = a * Math.cos(ph), v = bb * Math.sin(ph);
+        var x = st.b[0] + s2 * (u + v), y = st.b[1] + s2 * (u - v);
+        if (k === 0) ctx.moveTo(X(x), Y(y)); else ctx.lineTo(X(x), Y(y));
+      }
+      ctx.stroke(); ctx.setLineDash([]);
+    }
+    var sol = solve(), c0 = rss(sol.p);
+    [0.25, 1, 2.25, 4, 6.25, 9].forEach(function (c) { ellipse(c, 'rgba(120,120,120,0.35)', 1); });
+    if (sol.binding) ellipse(c0, '#1F3864', 2, [6, 4]);
+
+    ctx.fillStyle = '#1F3864'; ctx.beginPath(); ctx.arc(X(st.b[0]), Y(st.b[1]), 6, 0, 2 * Math.PI); ctx.fill();
+    ctx.fillText('OLS', X(st.b[0]) + 8, Y(st.b[1]) - 8);
+    ctx.fillStyle = '#c00000'; ctx.beginPath(); ctx.arc(X(sol.p[0]), Y(sol.p[1]), 6, 0, 2 * Math.PI); ctx.fill();
+
+    var f = function (v) { return (Math.abs(v) < 5e-4 && v !== 0 ? v.toExponential(1) : v.toFixed(3)); };
+    var msg;
+    if (!sol.binding) msg = 'Constraint not binding: the solution is the OLS estimate.';
+    else if (sol.corner) msg = 'Solution is at a corner: ' + (sol.p[0] === 0 ? '\u03b2\u2081' : '\u03b2\u2082') + ' = 0 exactly.';
+    else if (Math.min(Math.abs(sol.p[0]), Math.abs(sol.p[1])) < 0.01) msg = 'Close to an axis, but both coefficients are non-zero (no corner here).';
+    else msg = 'Solution on a smooth part of the boundary: both coefficients non-zero.';
+    out.innerHTML = 'OLS: (' + st.b[0].toFixed(2) + ', ' + st.b[1].toFixed(2) + ')<br>' +
+      'Constrained: (<span style="color:#c00000">' + f(sol.p[0]) + ', ' + f(sol.p[1]) + '</span>)<br>' +
+      '<span class="msg">' + msg + '</span>';
+  }
+
+  function sync() {
+    st.method = $('method').value;
+    st.q = parseFloat($('q').value); st.a = parseFloat($('a').value);
+    st.t = parseFloat($('t').value); st.r = parseFloat($('r').value);
+    $('qv').textContent = st.q.toFixed(2); $('av').textContent = st.a.toFixed(2);
+    $('tv').textContent = st.t.toFixed(2); $('rv').textContent = st.r.toFixed(2);
+    $('qrow').classList.toggle('hide', st.method !== 'lq');
+    $('arow').classList.toggle('hide', st.method !== 'enet');
+    draw();
+  }
+  ['method', 'q', 'a', 't', 'r'].forEach(function (id) { $(id).addEventListener('input', sync); $(id).addEventListener('change', sync); });
+
+  var dragging = false;
+  function move(e) {
+    var rc = cv.getBoundingClientRect(), pad = 22, w = rc.width, h = rc.height;
+    var x = (e.clientX - rc.left - pad) / (w - 2 * pad) * 2 * R - R;
+    var y = R - (e.clientY - rc.top - pad) / (h - 2 * pad) * 2 * R;
+    st.b = [Math.max(-2.9, Math.min(2.9, x)), Math.max(-2.9, Math.min(2.9, y))];
+    draw();
+  }
+  cv.addEventListener('pointerdown', function (e) { dragging = true; cv.setPointerCapture(e.pointerId); move(e); });
+  cv.addEventListener('pointermove', function (e) { if (dragging) move(e); });
+  cv.addEventListener('pointerup', function () { dragging = false; });
+  cv.addEventListener('pointercancel', function () { dragging = false; });
+  window.addEventListener('resize', draw);
+  sync();
+})();
+</script>
+</body>
+</html>
