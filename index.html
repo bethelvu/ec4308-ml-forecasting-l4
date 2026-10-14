@@ -35,7 +35,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="chapter4_files/libs/revealjs/dist/theme/quarto-8ae0f0b5570e053adb853566b0224ee3.css">
+  <link rel="stylesheet" href="chapter4_files/libs/revealjs/dist/theme/quarto-509901866ae18bf9e4108d39ddff0c6a.css">
   <link rel="stylesheet" href="custom.css">
   <link href="chapter4_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="chapter4_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -475,11 +475,15 @@ Vu Thanh Hai
 <ul>
 <li>Data from the ISLR package on credit card balances and 10 predictors, <span class="math inline">\(N = 400\)</span>.</li>
 </ul>
+<div class="columns">
+<div class="column" style="width:50%;">
 <table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">ID</td>
@@ -505,6 +509,17 @@ Vu Thanh Hai
 <td style="text-align: left;">Age</td>
 <td style="text-align: left;">Age in years</td>
 </tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td style="text-align: left;">Education</td>
 <td style="text-align: left;">Number of years of education</td>
@@ -515,15 +530,15 @@ Vu Thanh Hai
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Student</td>
-<td style="text-align: left;">A factor with levels No and Yes indicating whether the individual was a student</td>
+<td style="text-align: left;">Factor: student (No / Yes)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Married</td>
-<td style="text-align: left;">A factor with levels No and Yes indicating whether the individual was married</td>
+<td style="text-align: left;">Factor: married (No / Yes)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Ethnicity</td>
-<td style="text-align: left;">A factor with levels African American, Asian, and Caucasian indicating the individual’s ethnicity.</td>
+<td style="text-align: left;">African American, Asian, Caucasian</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Balance</td>
@@ -531,6 +546,7 @@ Vu Thanh Hai
 </tr>
 </tbody>
 </table>
+</div></div>
 </section>
 
 <section id="application-r-package-glmnet" class="title-slide slide level1 center">
@@ -556,6 +572,7 @@ Vu Thanh Hai
 
 <section id="application-effect-of-lambda-on-coefficients" class="title-slide slide level1 center">
 <h1>Application: effect of <span class="math inline">\(\lambda\)</span> on coefficients</h1>
+<div class="compact-table">
 <table class="caption-top" style="width:100%;">
 <colgroup>
 <col style="width: 10%">
@@ -632,6 +649,7 @@ Vu Thanh Hai
 </tr>
 </tbody>
 </table>
+</div>
 <p><em>Note that these results are based on a random seed that is different from what we have in the codes provided. But they are very close.</em></p>
 </section>
 

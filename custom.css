@@ -21,3 +21,39 @@
   font-size: 1.75em !important;
   color: #1f3864 !important;
 }
+
+/* Clean, non-overflowing table styling */
+.reveal table {
+  font-size: 0.62em !important;
+  margin: 0.4em auto !important;
+  border-collapse: collapse !important;
+  width: auto !important;
+  max-width: 98% !important;
+}
+
+.reveal table th,
+.reveal table td {
+  padding: 0.22em 0.5em !important;
+  line-height: 1.25 !important;
+  border-bottom: 1px solid #cbd5e1 !important;
+}
+
+.reveal table th {
+  border-bottom: 2px solid #1f3864 !important;
+  color: #1f3864 !important;
+  font-weight: 700 !important;
+}
+
+.reveal table tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* Extra-compact class for wide multi-column tables */
+.reveal .compact-table table {
+  font-size: 0.56em !important;
+}
+
+.reveal .compact-table th,
+.reveal .compact-table td {
+  padding: 0.18em 0.35em !important;
+}
