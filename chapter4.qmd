@@ -81,7 +81,7 @@ $$\min_{\{\beta_i\}_{i=0}^{P}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta
 - The Ridge problem:
 $$\min_{\{\beta_i\}_{i=0}^{P}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2 \;\text{ s.t. }\; \sum_{j=1}^{P}\beta_j^2\le \tau$$
 - The best subset selection problem:
-$$\min_{\{\beta_i\}_{i=0}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2 \;\text{ s.t. }\; \sum_{j=1}^{P}\mathbf{I}(\beta_j\neq 0)\le s$$
+$$\min_{\{\beta_i\}_{i=0}^{P}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2 \;\text{ s.t. }\; \sum_{j=1}^{P}\mathbf{I}(\beta_j\neq 0)\le s$$
 
 # Shrinkage interpretation (under special case)
 
@@ -105,7 +105,7 @@ $$\hat\beta_j^{R}=\frac{\hat\beta_j^{OLS}}{(1+\lambda)}$$
 
 - LASSO chooses betas to minimize:
 $$\hat{\boldsymbol\beta}_\lambda^{L}=\arg\min_{\beta}\,(\mathbf{y}-\mathbf{X}\boldsymbol\beta)'(\mathbf{y}-\mathbf{X}\boldsymbol\beta)+\lambda\|\boldsymbol\beta\|_1$$
-- The solution is :
+- The solution is:
 $$\hat\beta_j^{L}(\lambda)=\begin{cases}\hat\beta_j^{OLS}-\lambda/2 & \text{if } \hat\beta_j^{OLS}>\lambda/2\\[4pt] \hat\beta_j^{OLS}+\lambda/2 & \text{if } \hat\beta_j^{OLS}<-\lambda/2\\[4pt] 0 & \text{if } \big|\hat\beta_j^{OLS}\big|\le\lambda/2\end{cases}$$
 
 # Shrinkage interpretation (under special case)
@@ -136,7 +136,7 @@ Source: James et al. (2014), ISLR, Springer
 *Note: These diagrams are for the special case $X'X=I_P$*
 
 ::: {.footer-note}
-Source: Figure 3.11 in Element of Statistical Learning
+Source: Figure 3.11 in The Elements of Statistical Learning
 :::
 
 # Shrinkage and selection
@@ -163,7 +163,7 @@ Source: James et al. (2014), ISLR, Springer
 - When variables in $\mathbf{X}$ are correlated, Ridge tends to outperform LASSO empirically.
 - It would seem a compromise between Ridge and LASSO could be interesting.
 
-# LASSO – Ridge compromise ?
+# LASSO – Ridge compromise?
 
 - One way to achieve such compromise is to consider the nesting penalty representation:
 
@@ -175,7 +175,7 @@ $$\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum
 Source: Hastie et al. (2009): *Elements of Statistical Learning*, Springer
 :::
 
-# LASSO – Ridge compromise ?
+# LASSO – Ridge compromise?
 
 :::: {.columns}
 ::: {.column width="45%"}
@@ -196,7 +196,7 @@ $$\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum
 
 - Motivated by the above shortcomings, Zou and Hastie (2005) proposed the approach they termed an “elastic net”:
 
-$$\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}\Big(\alpha\beta_j^2+(1-\alpha)\big|\beta_j\big|\Big)$$
+$$\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}\Big((1-\alpha)\beta_j^2+\alpha\big|\beta_j\big|\Big)$$
 
 ![](media/image18.png){fig-align="center" width="65%"}
 
@@ -209,9 +209,9 @@ Source: Hastie et al. (2009): *Elements of Statistical Learning*, Springer
 # The Elastic Net
 
 - Motivated by the above shortcomings, Zou and Hastie (2005) proposed the approach they termed an “elastic net”:
-$$\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}\Big(\alpha\beta_j^2+(1-\alpha)\big|\beta_j\big|\Big)$$
-- The elastic net selects variables like the LASSO and shrinks the coefficients together the coefficients of correlated predictors like ridge: Make it harder to push $\beta$ to zero, while retaining sharp corners (thus some coefficients can be shrunk to zero)
-- It has similar computational cost as that of LASSO.
+$$\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}\Big((1-\alpha)\beta_j^2+\alpha\big|\beta_j\big|\Big)$$
+- The elastic net selects variables like the LASSO and shrinks the coefficients of correlated predictors together like ridge: Make it harder to push $\beta$ to zero, while retaining sharp corners (thus some coefficients can be shrunk to zero)
+- It has similar computational cost to that of LASSO.
 - Selection of $\alpha$ and $\lambda$ can be done jointly by K-fold CV.
 
 # The Elastic Net Illustration
@@ -233,8 +233,8 @@ Source: Hastie et al. (2015): “Statistical Learning with Sparsity: The Lasso a
 - Again, a critical choice that determines performance.
 - In statistical literature, most popular approach is cross-validation: typically K-fold on a grid for $\lambda$.
 - Note: cannot do the LOOCV computational “trick” since no closed form solution – makes it computationally infeasible for big problem.
-- Commonly found that results can be sensitive across multiple runs – prudent to increase K to mitigate this variation. Also, can try CV many times and choose value of $\lambda$ that occurs the most)
-- Chernozhukov, Chetverikov and Liao (2020) provide theoretical justification: estimation error of CV converges to zero under some conditions in the Normal model. (just know that LASSO is theoretically justified)
+- Commonly found that results can be sensitive across multiple runs – prudent to increase K to mitigate this variation. Also, can try CV many times and choose the value of $\lambda$ that occurs the most.
+- Chernozhukov, Chetverikov and Liao (2020) provide theoretical justification: estimation error of CV converges to zero under some conditions in the normal (Gaussian) model. (Just know that LASSO is theoretically justified.)
 
 # Choice of $\lambda$: The “1 SE rule” for CV
 
@@ -264,7 +264,7 @@ $$\lambda = 2c\sqrt{n}\,\hat\sigma\,\Phi^{-1}\big(1-\gamma/(2p)\big)$$
 - Belloni and Chernozhukov (2013) provide a very intuitive (and computationally simple) idea: undo the shrinkage bias by applying the unpenalized estimator (OLS) using only the variables selected by LASSO.
 - This is called post-LASSO estimation.
 - Results suggest it works at least as good as LASSO and sometimes much better.
-- Works well with theoretically motivated plug-in penalty ($c = 1.1$ is suggested; for what is $c$, see the formula in slide 24).
+- Works well with theoretically motivated plug-in penalty ($c = 1.1$ is suggested; for what is $c$, see the plug-in rule formula on the "Choice of $\lambda$: plug-in rules" slide).
 - Or we can choose $\lambda$ by CV even though not justified theoretically.
 
 # Note on Sparsity
@@ -278,14 +278,14 @@ $$\lambda = 2c\sqrt{n}\,\hat\sigma\,\Phi^{-1}\big(1-\gamma/(2p)\big)$$
 # Note on screening of regressors
 
 - Though LASSO can handle high P, it may not be desirable to consider too many redundant regressors. If so, we can do some pre-screening:
-- Fan and Lu (2008) propose a sure independence screening (SIS) procedure: rank variables by marginal correlations and only consider d most highly correlated to Y variables.
+- Fan and Lv (2008) propose a sure independence screening (SIS) procedure: rank variables by marginal correlations and only consider d most highly correlated to Y variables.
 - Recommend $d = N - 1$ or $d = N/\log(N)$.
 - Under strong conditions, can be proven to work theoretically (i.e., doesn’t discard useful variables).
 - Simple idea that can make life much easier in large problems.
 
 # Note on regressor transformation
 
-- Much theoretical insights for LASSO are obtained for orthogonal regressors.
+- Many theoretical insights for LASSO are obtained for orthogonal regressors.
 - Whenever possible, we could consider transformations of regressors that are closer to being orthogonal.
 - E.g., interest rates are very correlated across maturities in levels, but interest rate spreads are much less so.
 - This depends on the context and our domain knowledge.
@@ -345,7 +345,7 @@ $$\lambda = 2c\sqrt{n}\,\hat\sigma\,\Phi^{-1}\big(1-\gamma/(2p)\big)$$
 | $L_1$-norm | 0 | 1.423 | 89.889 | 237.77 | 285.13 | 469.203 | 482.516 |
 :::
 
-*Note that these results are based on a random seed that is different from what we have in the codes provided. But they are very close.*
+*Note that these results are based on a random seed that is different from what we have in the code provided. But they are very close.*
 
 # Application: 10-fold CV (default)
 

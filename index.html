@@ -226,7 +226,7 @@ Vu Thanh Hai
 <ul>
 <li>The LASSO problem: <span class="math display">\[\min_{\{\beta_i\}_{i=0}^{P}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2 \;\text{ s.t. }\; \sum_{j=1}^{P}|\beta_j|\le t\]</span></li>
 <li>The Ridge problem: <span class="math display">\[\min_{\{\beta_i\}_{i=0}^{P}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2 \;\text{ s.t. }\; \sum_{j=1}^{P}\beta_j^2\le \tau\]</span></li>
-<li>The best subset selection problem: <span class="math display">\[\min_{\{\beta_i\}_{i=0}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2 \;\text{ s.t. }\; \sum_{j=1}^{P}\mathbf{I}(\beta_j\neq 0)\le s\]</span></li>
+<li>The best subset selection problem: <span class="math display">\[\min_{\{\beta_i\}_{i=0}^{P}}\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2 \;\text{ s.t. }\; \sum_{j=1}^{P}\mathbf{I}(\beta_j\neq 0)\le s\]</span></li>
 </ul>
 </section>
 
@@ -253,7 +253,7 @@ Vu Thanh Hai
 <h1>Shrinkage interpretation (under special case)</h1>
 <ul>
 <li>LASSO chooses betas to minimize: <span class="math display">\[\hat{\boldsymbol\beta}_\lambda^{L}=\arg\min_{\beta}\,(\mathbf{y}-\mathbf{X}\boldsymbol\beta)'(\mathbf{y}-\mathbf{X}\boldsymbol\beta)+\lambda\|\boldsymbol\beta\|_1\]</span></li>
-<li>The solution is : <span class="math display">\[\hat\beta_j^{L}(\lambda)=\begin{cases}\hat\beta_j^{OLS}-\lambda/2 &amp; \text{if } \hat\beta_j^{OLS}&gt;\lambda/2\\[4pt] \hat\beta_j^{OLS}+\lambda/2 &amp; \text{if } \hat\beta_j^{OLS}&lt;-\lambda/2\\[4pt] 0 &amp; \text{if } \big|\hat\beta_j^{OLS}\big|\le\lambda/2\end{cases}\]</span></li>
+<li>The solution is: <span class="math display">\[\hat\beta_j^{L}(\lambda)=\begin{cases}\hat\beta_j^{OLS}-\lambda/2 &amp; \text{if } \hat\beta_j^{OLS}&gt;\lambda/2\\[4pt] \hat\beta_j^{OLS}+\lambda/2 &amp; \text{if } \hat\beta_j^{OLS}&lt;-\lambda/2\\[4pt] 0 &amp; \text{if } \big|\hat\beta_j^{OLS}\big|\le\lambda/2\end{cases}\]</span></li>
 </ul>
 </section>
 
@@ -287,7 +287,7 @@ Vu Thanh Hai
 
 <img data-src="media/image10.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"><p><em>Note: These diagrams are for the special case <span class="math inline">\(X'X=I_P\)</span></em></p>
 <div class="footer-note">
-<p>Source: Figure 3.11 in Element of Statistical Learning</p>
+<p>Source: Figure 3.11 in The Elements of Statistical Learning</p>
 </div>
 </section>
 
@@ -319,7 +319,7 @@ Vu Thanh Hai
 </section>
 
 <section id="lasso-ridge-compromise" class="title-slide slide level1 center">
-<h1>LASSO – Ridge compromise ?</h1>
+<h1>LASSO – Ridge compromise?</h1>
 <ul>
 <li>One way to achieve such compromise is to consider the nesting penalty representation:</li>
 </ul>
@@ -331,7 +331,7 @@ Vu Thanh Hai
 </section>
 
 <section id="lasso-ridge-compromise-1" class="title-slide slide level1 center">
-<h1>LASSO – Ridge compromise ?</h1>
+<h1>LASSO – Ridge compromise?</h1>
 <div class="columns">
 <div class="column" style="width:45%;">
 <ul>
@@ -352,7 +352,7 @@ Vu Thanh Hai
 <ul>
 <li>Motivated by the above shortcomings, Zou and Hastie (2005) proposed the approach they termed an “elastic net”:</li>
 </ul>
-<p><span class="math display">\[\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}\Big(\alpha\beta_j^2+(1-\alpha)\big|\beta_j\big|\Big)\]</span></p>
+<p><span class="math display">\[\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}\Big((1-\alpha)\beta_j^2+\alpha\big|\beta_j\big|\Big)\]</span></p>
 
 <img data-src="media/image18.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p>NOTE: <span class="math inline">\(0&lt;\alpha&lt;1\)</span></p>
 <div class="footer-note">
@@ -363,9 +363,9 @@ Vu Thanh Hai
 <section id="the-elastic-net-1" class="title-slide slide level1 center">
 <h1>The Elastic Net</h1>
 <ul>
-<li>Motivated by the above shortcomings, Zou and Hastie (2005) proposed the approach they termed an “elastic net”: <span class="math display">\[\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}\Big(\alpha\beta_j^2+(1-\alpha)\big|\beta_j\big|\Big)\]</span></li>
-<li>The elastic net selects variables like the LASSO and shrinks the coefficients together the coefficients of correlated predictors like ridge: Make it harder to push <span class="math inline">\(\beta\)</span> to zero, while retaining sharp corners (thus some coefficients can be shrunk to zero)</li>
-<li>It has similar computational cost as that of LASSO.</li>
+<li>Motivated by the above shortcomings, Zou and Hastie (2005) proposed the approach they termed an “elastic net”: <span class="math display">\[\sum_{i=1}^{N}\Big(y_i-\beta_0-\sum_{j=1}^{P}\beta_j x_{ij}\Big)^2+\lambda\sum_{j=1}^{P}\Big((1-\alpha)\beta_j^2+\alpha\big|\beta_j\big|\Big)\]</span></li>
+<li>The elastic net selects variables like the LASSO and shrinks the coefficients of correlated predictors together like ridge: Make it harder to push <span class="math inline">\(\beta\)</span> to zero, while retaining sharp corners (thus some coefficients can be shrunk to zero)</li>
+<li>It has similar computational cost to that of LASSO.</li>
 <li>Selection of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\lambda\)</span> can be done jointly by K-fold CV.</li>
 </ul>
 </section>
@@ -391,8 +391,8 @@ Vu Thanh Hai
 <li>Again, a critical choice that determines performance.</li>
 <li>In statistical literature, most popular approach is cross-validation: typically K-fold on a grid for <span class="math inline">\(\lambda\)</span>.</li>
 <li>Note: cannot do the LOOCV computational “trick” since no closed form solution – makes it computationally infeasible for big problem.</li>
-<li>Commonly found that results can be sensitive across multiple runs – prudent to increase K to mitigate this variation. Also, can try CV many times and choose value of <span class="math inline">\(\lambda\)</span> that occurs the most)</li>
-<li>Chernozhukov, Chetverikov and Liao (2020) provide theoretical justification: estimation error of CV converges to zero under some conditions in the Normal model. (just know that LASSO is theoretically justified)</li>
+<li>Commonly found that results can be sensitive across multiple runs – prudent to increase K to mitigate this variation. Also, can try CV many times and choose the value of <span class="math inline">\(\lambda\)</span> that occurs the most.</li>
+<li>Chernozhukov, Chetverikov and Liao (2020) provide theoretical justification: estimation error of CV converges to zero under some conditions in the normal (Gaussian) model. (Just know that LASSO is theoretically justified.)</li>
 </ul>
 </section>
 
@@ -433,7 +433,7 @@ Vu Thanh Hai
 <li>Belloni and Chernozhukov (2013) provide a very intuitive (and computationally simple) idea: undo the shrinkage bias by applying the unpenalized estimator (OLS) using only the variables selected by LASSO.</li>
 <li>This is called post-LASSO estimation.</li>
 <li>Results suggest it works at least as good as LASSO and sometimes much better.</li>
-<li>Works well with theoretically motivated plug-in penalty (<span class="math inline">\(c = 1.1\)</span> is suggested; for what is <span class="math inline">\(c\)</span>, see the formula in slide 24).</li>
+<li>Works well with theoretically motivated plug-in penalty (<span class="math inline">\(c = 1.1\)</span> is suggested; for what is <span class="math inline">\(c\)</span>, see the plug-in rule formula on the “Choice of <span class="math inline">\(\lambda\)</span>: plug-in rules” slide).</li>
 <li>Or we can choose <span class="math inline">\(\lambda\)</span> by CV even though not justified theoretically.</li>
 </ul>
 </section>
@@ -453,7 +453,7 @@ Vu Thanh Hai
 <h1>Note on screening of regressors</h1>
 <ul>
 <li>Though LASSO can handle high P, it may not be desirable to consider too many redundant regressors. If so, we can do some pre-screening:</li>
-<li>Fan and Lu (2008) propose a sure independence screening (SIS) procedure: rank variables by marginal correlations and only consider d most highly correlated to Y variables.</li>
+<li>Fan and Lv (2008) propose a sure independence screening (SIS) procedure: rank variables by marginal correlations and only consider d most highly correlated to Y variables.</li>
 <li>Recommend <span class="math inline">\(d = N - 1\)</span> or <span class="math inline">\(d = N/\log(N)\)</span>.</li>
 <li>Under strong conditions, can be proven to work theoretically (i.e., doesn’t discard useful variables).</li>
 <li>Simple idea that can make life much easier in large problems.</li>
@@ -463,7 +463,7 @@ Vu Thanh Hai
 <section id="note-on-regressor-transformation" class="title-slide slide level1 center">
 <h1>Note on regressor transformation</h1>
 <ul>
-<li>Much theoretical insights for LASSO are obtained for orthogonal regressors.</li>
+<li>Many theoretical insights for LASSO are obtained for orthogonal regressors.</li>
 <li>Whenever possible, we could consider transformations of regressors that are closer to being orthogonal.</li>
 <li>E.g., interest rates are very correlated across maturities in levels, but interest rate spreads are much less so.</li>
 <li>This depends on the context and our domain knowledge.</li>
@@ -650,7 +650,7 @@ Vu Thanh Hai
 </tbody>
 </table>
 </div>
-<p><em>Note that these results are based on a random seed that is different from what we have in the codes provided. But they are very close.</em></p>
+<p><em>Note that these results are based on a random seed that is different from what we have in the code provided. But they are very close.</em></p>
 </section>
 
 <section id="application-10-fold-cv-default" class="title-slide slide level1 center">
