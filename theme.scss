@@ -4,9 +4,39 @@ $body-color: #1a1a1a;
 $presentation-heading-color: #1f3864;
 $link-color: #1f6f2e;
 $code-color: #c00000;
+$presentation-h1-font-size: 1.2em;
+$presentation-h2-font-size: 1.15em;
+$presentation-h3-font-size: 1.05em;
+$presentation-h4-font-size: 1.0em;
 
 /*-- scss:rules --*/
-.reveal .slides section h1 { color: #1f3864; }
-.reveal .slides section h3 { color: #1f6f2e; }
+.reveal .slides section h1 {
+  color: #1f3864;
+  font-size: var(--r-heading4-size, 1.2em);
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+}
+
+.reveal .slides section h2 {
+  font-size: var(--r-heading4-size, 1.2em);
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+}
+
+.reveal .slides section h3 {
+  color: #1f6f2e;
+  font-size: 1.05em;
+}
+
+.reveal .slides section h4 {
+  font-size: 1.0em;
+}
+
+.reveal .slides section#title-slide h1.title {
+  font-size: 1.7em;
+}
+
 .reveal .footer-note { color: #6aa84f; font-size: 0.5em; }
 .reveal blockquote { border-left: 4px solid #1f6f2e; background: #f0f7f0; padding: 0.3em 0.8em; }
